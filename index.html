@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CardioAI - AI-Powered ECG Interpreter for rapid cardiac rhythm analysis and interpretation">
+  <meta name="description"
+    content="CardioAI - AI-Powered ECG Interpreter for rapid cardiac rhythm analysis and interpretation">
   <meta name="keywords" content="ECG, EKG, AI, cardiac, heart, rhythm, interpreter, analysis">
   <title>CardioAI | AI-Powered ECG Interpreter</title>
-  
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <!-- Stylesheet -->
   <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
   <!-- Header -->
   <header class="header">
@@ -27,7 +30,7 @@
       <nav>
         <ul class="nav-links">
           <li><a href="#" class="nav-link">Home</a></li>
-          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="how-it-works.html" class="nav-link">How It Works</a></li>
           <li><a href="#about" class="nav-link">About</a></li>
         </ul>
       </nav>
@@ -40,7 +43,7 @@
     <section class="upload-section" id="upload-section">
       <h1 class="section-title">AI-Powered ECG Analysis</h1>
       <p class="section-subtitle">Upload an ECG image for instant AI interpretation and cardiac rhythm analysis</p>
-      
+
       <div class="upload-zone" id="upload-zone">
         <input type="file" class="upload-input" id="upload-input" accept="image/*,.pdf">
         <div class="upload-icon">📤</div>
@@ -274,8 +277,8 @@
       <div class="disclaimer">
         <span class="icon">⚠️</span>
         <p>
-          <strong>Medical Disclaimer:</strong> CardioAI is intended for educational and demonstration purposes only. 
-          This tool should NOT be used for actual medical diagnosis. Always consult qualified healthcare professionals 
+          <strong>Medical Disclaimer:</strong> CardioAI is intended for educational and demonstration purposes only.
+          This tool should NOT be used for actual medical diagnosis. Always consult qualified healthcare professionals
           for ECG interpretation and cardiac care decisions.
         </p>
       </div>
@@ -293,7 +296,8 @@
     <div class="loading-content">
       <div class="ecg-loader">
         <svg viewBox="0 0 200 80">
-          <path class="ecg-line" d="M0,40 L30,40 L35,40 L40,20 L45,60 L50,10 L55,70 L60,40 L70,40 L80,40 L85,35 L90,45 L95,40 L100,40 L130,40 L135,40 L140,20 L145,60 L150,10 L155,70 L160,40 L170,40 L200,40"/>
+          <path class="ecg-line"
+            d="M0,40 L30,40 L35,40 L40,20 L45,60 L50,10 L55,70 L60,40 L70,40 L80,40 L85,35 L90,45 L95,40 L100,40 L130,40 L135,40 L140,20 L145,60 L150,10 L155,70 L160,40 L170,40 L200,40" />
         </svg>
       </div>
       <p class="loading-text">Analyzing ECG<span class="loading-dots"></span></p>
@@ -306,4 +310,5 @@
   <script src="js/report-generator.js"></script>
   <script src="js/app.js"></script>
 </body>
+
 </html>
