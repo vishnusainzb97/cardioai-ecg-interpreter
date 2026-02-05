@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CardioAI - AI-Powered ECG Interpreter for rapid cardiac rhythm analysis and interpretation">
+  <meta name="keywords" content="ECG, EKG, AI, cardiac, heart, rhythm, interpreter, analysis">
+  <title>CardioAI | AI-Powered ECG Interpreter</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="#" class="logo">
+        <div class="logo-icon">🫀</div>
+        <span class="logo-text">CardioAI</span>
+        <span class="logo-badge">MVP</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link">Home</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <!-- Upload Section -->
+    <section class="upload-section" id="upload-section">
+      <h1 class="section-title">AI-Powered ECG Analysis</h1>
+      <p class="section-subtitle">Upload an ECG image for instant AI interpretation and cardiac rhythm analysis</p>
+      
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" class="upload-input" id="upload-input" accept="image/*,.pdf">
+        <div class="upload-icon">📤</div>
+        <div class="upload-text">
+          <h3>Drop your ECG image here</h3>
+          <p>or click to browse • Supports PNG, JPG, PDF</p>
+        </div>
+      </div>
+
+      <div class="sample-section">
+        <div class="sample-title">Or try a sample ECG</div>
+        <div class="sample-buttons">
+          <button class="sample-btn normal" data-sample="normal">
+            <span class="status-dot"></span>
+            Normal Sinus Rhythm
+          </button>
+          <button class="sample-btn warning" data-sample="afib">
+            <span class="status-dot"></span>
+            Atrial Fibrillation
+          </button>
+          <button class="sample-btn danger" data-sample="vtach">
+            <span class="status-dot"></span>
+            Ventricular Tachycardia
+          </button>
+          <button class="sample-btn danger" data-sample="stemi">
+            <span class="status-dot"></span>
+            STEMI Pattern
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preview Section -->
+    <section class="preview-section" id="preview-section">
+      <div class="preview-card">
+        <div class="preview-header">
+          <h3><span class="icon">🖼️</span> Uploaded ECG</h3>
+          <button class="btn btn-secondary" id="clear-btn">
+            <span>✕</span> Clear
+          </button>
+        </div>
+        <div class="preview-image-container">
+          <img src="" alt="Uploaded ECG" class="preview-image" id="preview-image">
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section" id="results-section">
+      <div class="results-header">
+        <div class="results-title">
+          <span class="icon">📊</span>
+          <h2>Analysis Results</h2>
+        </div>
+        <div class="results-actions">
+          <button class="btn btn-secondary" id="new-analysis-btn">
+            <span>➕</span> New Analysis
+          </button>
+          <button class="btn btn-primary" id="export-btn">
+            <span>📥</span> Export Report
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card" style="--stat-color: var(--color-danger)">
+          <div class="stat-icon">❤️</div>
+          <div class="stat-value" id="heart-rate">--</div>
+          <div class="stat-label">Heart Rate</div>
+          <div class="stat-sublabel">beats per minute</div>
+        </div>
+        <div class="stat-card" style="--stat-color: var(--color-info)">
+          <div class="stat-icon">⏱️</div>
+          <div class="stat-value" id="pr-interval">--</div>
+          <div class="stat-label">PR Interval</div>
+          <div class="stat-sublabel">milliseconds</div>
+        </div>
+        <div class="stat-card" style="--stat-color: var(--color-warning)">
+          <div class="stat-icon">📊</div>
+          <div class="stat-value" id="qrs-duration">--</div>
+          <div class="stat-label">QRS Duration</div>
+          <div class="stat-sublabel">milliseconds</div>
+        </div>
+        <div class="stat-card" style="--stat-color: var(--color-success)">
+          <div class="stat-icon">📈</div>
+          <div class="stat-value" id="qtc-interval">--</div>
+          <div class="stat-label">QTc Interval</div>
+          <div class="stat-sublabel">milliseconds</div>
+        </div>
+        <div class="stat-card" style="--stat-color: #8b5cf6">
+          <div class="stat-icon">🧭</div>
+          <div class="stat-value" id="axis">--</div>
+          <div class="stat-label">QRS Axis</div>
+          <div class="stat-sublabel">degrees</div>
+        </div>
+        <div class="stat-card" style="--stat-color: #ec4899">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-value" id="confidence">--</div>
+          <div class="stat-label">Confidence</div>
+          <div class="stat-sublabel">AI score</div>
+        </div>
+      </div>
+
+      <!-- ECG Visualization -->
+      <div class="ecg-visualization">
+        <div class="ecg-header">
+          <h3><span class="icon">📉</span> ECG Waveform</h3>
+          <div class="ecg-controls">
+            <button class="ecg-control-btn" id="zoom-in-btn" title="Zoom In">+</button>
+            <button class="ecg-control-btn" id="zoom-out-btn" title="Zoom Out">−</button>
+            <button class="ecg-control-btn" id="reset-zoom-btn" title="Reset">↺</button>
+          </div>
+        </div>
+        <div class="ecg-canvas-container">
+          <canvas id="ecg-canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Analysis Cards -->
+      <div class="analysis-grid">
+        <!-- Rhythm Analysis Card -->
+        <div class="analysis-card">
+          <div class="analysis-card-header">
+            <span class="icon">💓</span>
+            <h3>Rhythm Analysis</h3>
+          </div>
+          <div class="analysis-card-body">
+            <div class="rhythm-badge normal" id="rhythm-badge">
+              <span class="pulse"></span>
+              <span id="rhythm-type">--</span>
+            </div>
+            <ul class="params-list" id="rhythm-params">
+              <li class="param-item">
+                <span class="param-label">Regularity</span>
+                <span class="param-value" id="regularity">--</span>
+              </li>
+              <li class="param-item">
+                <span class="param-label">P Wave</span>
+                <span class="param-value" id="p-wave">--</span>
+              </li>
+              <li class="param-item">
+                <span class="param-label">P:QRS Ratio</span>
+                <span class="param-value" id="p-qrs-ratio">--</span>
+              </li>
+              <li class="param-item">
+                <span class="param-label">Rate Variability</span>
+                <span class="param-value" id="rate-variability">--</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Interpretation Card -->
+        <div class="analysis-card">
+          <div class="analysis-card-header">
+            <span class="icon">🔍</span>
+            <h3>Clinical Interpretation</h3>
+          </div>
+          <div class="analysis-card-body">
+            <div class="interpretation-text" id="interpretation-text">
+              <p>Analysis results will appear here...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parameters Card -->
+        <div class="analysis-card">
+          <div class="analysis-card-header">
+            <span class="icon">📋</span>
+            <h3>Detailed Parameters</h3>
+          </div>
+          <div class="analysis-card-body">
+            <ul class="params-list" id="detailed-params">
+              <li class="param-item">
+                <span class="param-label">ST Segment</span>
+                <span class="param-value" id="st-segment">--</span>
+              </li>
+              <li class="param-item">
+                <span class="param-label">T Wave</span>
+                <span class="param-value" id="t-wave">--</span>
+              </li>
+              <li class="param-item">
+                <span class="param-label">Q Wave</span>
+                <span class="param-value" id="q-wave">--</span>
+              </li>
+              <li class="param-item">
+                <span class="param-label">U Wave</span>
+                <span class="param-value" id="u-wave">--</span>
+              </li>
+              <li class="param-item">
+                <span class="param-label">J Point</span>
+                <span class="param-value" id="j-point">--</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Risk Assessment Card -->
+        <div class="analysis-card">
+          <div class="analysis-card-header">
+            <span class="icon">⚠️</span>
+            <h3>Risk Assessment</h3>
+          </div>
+          <div class="analysis-card-body">
+            <div class="risk-meter">
+              <div class="risk-bar">
+                <div class="risk-fill low" id="risk-fill" style="width: 0%"></div>
+              </div>
+              <div class="risk-labels">
+                <span>Low Risk</span>
+                <span>Moderate</span>
+                <span>High Risk</span>
+              </div>
+            </div>
+            <ul class="recommendations-list" id="recommendations">
+              <li class="recommendation-item">
+                <span class="icon">•</span>
+                <span>Recommendations will appear here...</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="disclaimer">
+        <span class="icon">⚠️</span>
+        <p>
+          <strong>Medical Disclaimer:</strong> CardioAI is intended for educational and demonstration purposes only. 
+          This tool should NOT be used for actual medical diagnosis. Always consult qualified healthcare professionals 
+          for ECG interpretation and cardiac care decisions.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Terms of Service</a>
+        <a href="#" class="footer-link">Contact</a>
+      </div>
+      <p class="copyright">© 2026 CardioAI. Built with ❤️ for better cardiac care.</p>
+    </div>
+  </footer>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-content">
+      <div class="ecg-loader">
+        <svg viewBox="0 0 200 80">
+          <path class="ecg-line" d="M0,40 L30,40 L35,40 L40,20 L45,60 L50,10 L55,70 L60,40 L70,40 L80,40 L85,35 L90,45 L95,40 L100,40 L130,40 L135,40 L140,20 L145,60 L150,10 L155,70 L160,40 L170,40 L200,40"/>
+        </svg>
+      </div>
+      <p class="loading-text">Analyzing ECG<span class="loading-dots"></span></p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/ecg-analyzer.js"></script>
+  <script src="js/ecg-visualizer.js"></script>
+  <script src="js/report-generator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
