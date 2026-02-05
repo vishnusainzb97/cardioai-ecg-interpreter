@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how CardioAI uses advanced AI technology to interpret ECG readings">
+    <title>How It Works | CardioAI ECG Interpreter</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="index.css">
+
+    <!-- Page-specific styles -->
+    <style>
+        /* How It Works Page Styles */
+        .hero-section {
+            text-align: center;
+            padding: var(--spacing-2xl) 0;
+            position: relative;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-text-primary), var(--color-accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Pipeline Section */
+        .pipeline-section {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .section-header p {
+            color: var(--color-text-secondary);
+        }
+
+        /* Animated Pipeline */
+        .pipeline {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pipeline::before {
+            content: '';
+            position: absolute;
+            left: 40px;
+            top: 60px;
+            bottom: 60px;
+            width: 3px;
+            background: linear-gradient(180deg,
+                    var(--color-accent-primary) 0%,
+                    var(--color-info) 50%,
+                    var(--color-accent-secondary) 100%);
+            border-radius: 3px;
+        }
+
+        .pipeline-step {
+            display: flex;
+            gap: var(--spacing-lg);
+            align-items: flex-start;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideInStep 0.6s ease forwards;
+        }
+
+        .pipeline-step:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .pipeline-step:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .pipeline-step:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        .pipeline-step:nth-child(4) {
+            animation-delay: 0.7s;
+        }
+
+        .pipeline-step:nth-child(5) {
+            animation-delay: 0.9s;
+        }
+
+        .pipeline-step:nth-child(6) {
+            animation-delay: 1.1s;
+        }
+
+        @keyframes slideInStep {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            min-width: 80px;
+            background: var(--color-bg-tertiary);
+            border: 3px solid var(--color-accent-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-accent-primary);
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 30px var(--color-accent-glow);
+        }
+
+        .step-content {
+            flex: 1;
+            background: var(--color-bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            transition: all var(--transition-normal);
+        }
+
+        .step-content:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-accent-primary);
+        }
+
+        .step-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .step-content h3 .icon {
+            font-size: 1.5rem;
+        }
+
+        .step-content p {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.7;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+        }
+
+        .tech-tag {
+            padding: 4px 12px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--color-accent-primary);
+            font-weight: 500;
+        }
+
+        /* Technology Stack Section */
+        .tech-stack-section {
+            padding: var(--spacing-2xl) 0;
+            background: var(--color-bg-secondary);
+            margin: var(--spacing-2xl) calc(-1 * var(--spacing-xl));
+            padding-left: var(--spacing-xl);
+            padding-right: var(--spacing-xl);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tech-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--tech-color, var(--color-accent-primary));
+        }
+
+        .tech-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tech-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--spacing-md);
+            background: var(--color-bg-tertiary);
+            border-radius: var(--border-radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .tech-card h3 {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tech-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Architecture Diagram */
+        .architecture-section {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .architecture-diagram {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-xl);
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            min-width: 800px;
+        }
+
+        .flow-box {
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--color-bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            text-align: center;
+            min-width: 140px;
+            transition: all var(--transition-normal);
+        }
+
+        .flow-box:hover {
+            border-color: var(--color-accent-primary);
+            transform: scale(1.05);
+        }
+
+        .flow-box .icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .flow-box .label {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--color-accent-primary);
+            animation: pulseArrow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseArrow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: translateX(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(5px);
+            }
+        }
+
+        /* AI Algorithm Section */
+        .algorithm-section {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .algorithm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .algorithm-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+        }
+
+        .algorithm-header {
+            background: linear-gradient(135deg, var(--color-bg-tertiary), var(--color-bg-secondary));
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .algorithm-header h3 {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .algorithm-body {
+            padding: var(--spacing-lg);
+        }
+
+        .algorithm-body ul {
+            list-style: none;
+        }
+
+        .algorithm-body li {
+            padding: var(--spacing-sm) 0;
+            color: var(--color-text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+        }
+
+        .algorithm-body li::before {
+            content: '→';
+            color: var(--color-accent-primary);
+            font-weight: bold;
+        }
+
+        /* Accuracy Stats */
+        .stats-section {
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+        }
+
+        .accuracy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accuracy-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+        }
+
+        .accuracy-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .accuracy-label {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            margin-top: var(--spacing-xs);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: var(--spacing-2xl) 0;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: var(--border-radius-xl);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .cta-section h2 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .cta-section p {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl);
+            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+            color: var(--color-bg-primary);
+            text-decoration: none;
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all var(--transition-normal);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .pipeline::before {
+                left: 30px;
+            }
+
+            .step-number {
+                width: 60px;
+                height: 60px;
+                min-width: 60px;
+                font-size: 1.2rem;
+            }
+
+            .flow-diagram {
+                min-width: auto;
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🫀</div>
+                <span class="logo-text">CardioAI</span>
+                <span class="logo-badge">MVP</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="how-it-works.html" class="nav-link" style="color: var(--color-accent-primary);">How It
+                            Works</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>How CardioAI Works</h1>
+            <p>Discover the cutting-edge technology powering our AI-driven ECG interpretation engine</p>
+        </section>
+
+        <!-- Data Flow Pipeline -->
+        <section class="pipeline-section">
+            <div class="section-header">
+                <h2>🔄 End-to-End Processing Pipeline</h2>
+                <p>From ECG upload to clinical interpretation in seconds</p>
+            </div>
+
+            <div class="pipeline">
+                <!-- Step 1 -->
+                <div class="pipeline-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3><span class="icon">📤</span> Image Upload & Preprocessing</h3>
+                        <p>
+                            When you upload an ECG image, our system first validates the file format and performs
+                            image preprocessing. The image is converted to a standardized format and optimized for
+                            analysis using client-side JavaScript processing.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">HTML5 File API</span>
+                            <span class="tech-tag">Canvas API</span>
+                            <span class="tech-tag">Drag & Drop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="pipeline-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3><span class="icon">🔍</span> Feature Extraction</h3>
+                        <p>
+                            The ECG waveform undergoes digital signal processing to identify key cardiac features:
+                            P waves, QRS complexes, T waves, and intervals. Our algorithm detects R-R intervals
+                            to calculate heart rate and rhythm regularity.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Signal Processing</span>
+                            <span class="tech-tag">Pattern Recognition</span>
+                            <span class="tech-tag">Peak Detection</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="pipeline-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3><span class="icon">🧠</span> AI Analysis Engine</h3>
+                        <p>
+                            Our core AI engine uses a rule-based expert system combined with pattern matching
+                            algorithms to classify cardiac rhythms. The system compares extracted features against
+                            a comprehensive database of cardiac patterns including Normal Sinus Rhythm, AFib, VTach, and
+                            STEMI.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Expert System</span>
+                            <span class="tech-tag">Pattern Matching</span>
+                            <span class="tech-tag">Classification</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="pipeline-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3><span class="icon">📊</span> Parameter Calculation</h3>
+                        <p>
+                            Precise measurements are calculated: Heart Rate (BPM), PR Interval, QRS Duration,
+                            QT/QTc Interval, and QRS Axis. Each parameter is compared against normal ranges
+                            to flag potential abnormalities.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Bazett Formula (QTc)</span>
+                            <span class="tech-tag">Interval Analysis</span>
+                            <span class="tech-tag">Range Validation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="pipeline-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3><span class="icon">📈</span> Waveform Visualization</h3>
+                        <p>
+                            The ECG is rendered on an HTML5 Canvas with a medical-grade grid (25mm/s, 10mm/mV).
+                            Real-time animation draws the waveform progressively, with interactive zoom and
+                            pan controls for detailed examination.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">HTML5 Canvas</span>
+                            <span class="tech-tag">2D Context API</span>
+                            <span class="tech-tag">RequestAnimationFrame</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="pipeline-step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h3><span class="icon">📋</span> Report Generation</h3>
+                        <p>
+                            A comprehensive clinical report is generated with all findings, parameters, risk
+                            assessment, and recommendations. Reports can be exported as printable HTML documents
+                            with the ECG waveform embedded.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Dynamic HTML</span>
+                            <span class="tech-tag">Blob API</span>
+                            <span class="tech-tag">Print Styles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Diagram -->
+        <section class="architecture-section">
+            <div class="section-header">
+                <h2>🏗️ System Architecture</h2>
+                <p>A modular, client-side architecture for fast and private analysis</p>
+            </div>
+
+            <div class="architecture-diagram">
+                <div class="flow-diagram">
+                    <div class="flow-box">
+                        <div class="icon">👤</div>
+                        <div class="label">User Input</div>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <div class="icon">📤</div>
+                        <div class="label">Upload Handler</div>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <div class="icon">🧠</div>
+                        <div class="label">ECG Analyzer</div>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <div class="icon">📊</div>
+                        <div class="label">Visualizer</div>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <div class="icon">📱</div>
+                        <div class="label">Results UI</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Stack -->
+        <section class="tech-stack-section">
+            <div class="section-header">
+                <h2>⚡ Technology Stack</h2>
+                <p>Built with modern web technologies for maximum compatibility</p>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-card" style="--tech-color: #e34c26;">
+                    <div class="tech-icon">📄</div>
+                    <h3>HTML5</h3>
+                    <p>Semantic markup with accessible structure. File API for uploads, Canvas for visualization, and
+                        modern form elements.</p>
+                </div>
+
+                <div class="tech-card" style="--tech-color: #264de4;">
+                    <div class="tech-icon">🎨</div>
+                    <h3>CSS3</h3>
+                    <p>Custom properties for theming, Grid & Flexbox layouts, glassmorphism effects, and smooth CSS
+                        animations.</p>
+                </div>
+
+                <div class="tech-card" style="--tech-color: #f7df1e;">
+                    <div class="tech-icon">⚙️</div>
+                    <h3>JavaScript ES6+</h3>
+                    <p>Object-oriented modules, async/await patterns, Canvas rendering, and DOM manipulation without
+                        frameworks.</p>
+                </div>
+
+                <div class="tech-card" style="--tech-color: #10b981;">
+                    <div class="tech-icon">🖼️</div>
+                    <h3>Canvas API</h3>
+                    <p>Hardware-accelerated 2D rendering for ECG waveforms with proper scaling, animation, and export
+                        capabilities.</p>
+                </div>
+
+                <div class="tech-card" style="--tech-color: #8b5cf6;">
+                    <div class="tech-icon">🧮</div>
+                    <h3>Signal Processing</h3>
+                    <p>Custom algorithms for waveform generation, peak detection, and cardiac rhythm synthesis.</p>
+                </div>
+
+                <div class="tech-card" style="--tech-color: #ec4899;">
+                    <div class="tech-icon">📊</div>
+                    <h3>Pattern Database</h3>
+                    <p>Comprehensive cardiac pattern library with Normal Sinus, AFib, VTach, STEMI, and more conditions.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Algorithm Details -->
+        <section class="algorithm-section">
+            <div class="section-header">
+                <h2>🤖 AI Algorithm Details</h2>
+                <p>Understanding the intelligence behind the interpretation</p>
+            </div>
+
+            <div class="algorithm-grid">
+                <div class="algorithm-card">
+                    <div class="algorithm-header">
+                        <h3>💓 Rhythm Classification</h3>
+                    </div>
+                    <div class="algorithm-body">
+                        <ul>
+                            <li>R-R interval variability analysis</li>
+                            <li>P wave presence and morphology</li>
+                            <li>P:QRS relationship assessment</li>
+                            <li>Rate-based classification rules</li>
+                            <li>Regularity scoring algorithm</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="algorithm-card">
+                    <div class="algorithm-header">
+                        <h3>📏 Interval Measurement</h3>
+                    </div>
+                    <div class="algorithm-body">
+                        <ul>
+                            <li>PR interval: P onset to QRS onset</li>
+                            <li>QRS duration: Q wave to S wave end</li>
+                            <li>QT interval: Q onset to T wave end</li>
+                            <li>QTc calculation (Bazett formula)</li>
+                            <li>Normal range comparison</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="algorithm-card">
+                    <div class="algorithm-header">
+                        <h3>⚠️ Abnormality Detection</h3>
+                    </div>
+                    <div class="algorithm-body">
+                        <ul>
+                            <li>ST segment elevation/depression</li>
+                            <li>T wave inversion analysis</li>
+                            <li>Pathological Q wave detection</li>
+                            <li>Axis deviation calculation</li>
+                            <li>Wide QRS complex flagging</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="algorithm-card">
+                    <div class="algorithm-header">
+                        <h3>🎯 Confidence Scoring</h3>
+                    </div>
+                    <div class="algorithm-body">
+                        <ul>
+                            <li>Feature match percentage</li>
+                            <li>Pattern similarity scoring</li>
+                            <li>Multi-criteria weighting</li>
+                            <li>Uncertainty quantification</li>
+                            <li>Differential diagnosis ranking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="section-header">
+                <h2>📈 Performance Metrics</h2>
+                <p>Designed for speed and reliability</p>
+            </div>
+
+            <div class="accuracy-grid">
+                <div class="accuracy-card">
+                    <div class="accuracy-value">&lt;3s</div>
+                    <div class="accuracy-label">Analysis Time</div>
+                </div>
+                <div class="accuracy-card">
+                    <div class="accuracy-value">4</div>
+                    <div class="accuracy-label">Rhythm Patterns</div>
+                </div>
+                <div class="accuracy-card">
+                    <div class="accuracy-value">12+</div>
+                    <div class="accuracy-label">Parameters Analyzed</div>
+                </div>
+                <div class="accuracy-card">
+                    <div class="accuracy-value">100%</div>
+                    <div class="accuracy-label">Client-Side Processing</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Ready to Try It?</h2>
+            <p>Experience AI-powered ECG interpretation for yourself</p>
+            <a href="index.html" class="cta-btn">
+                <span>🫀</span> Analyze an ECG Now
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="disclaimer">
+                <span class="icon">⚠️</span>
+                <p>
+                    <strong>Medical Disclaimer:</strong> CardioAI is intended for educational and demonstration purposes
+                    only.
+                    This tool should NOT be used for actual medical diagnosis. Always consult qualified healthcare
+                    professionals
+                    for ECG interpretation and cardiac care decisions.
+                </p>
+            </div>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+            <p class="copyright">© 2026 CardioAI. Built with ❤️ for better cardiac care.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
