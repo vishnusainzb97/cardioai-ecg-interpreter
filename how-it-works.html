@@ -33,21 +33,34 @@
             background-clip: text;
         }
 
-        .hero-section p {
+        .hero-section .subtitle {
             font-size: 1.2rem;
             color: var(--color-text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 700px;
+            margin: 0 auto var(--spacing-lg);
+            line-height: 1.7;
         }
 
-        /* Pipeline Section */
-        .pipeline-section {
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--color-accent-primary);
+            border-radius: 50px;
+            color: var(--color-accent-primary);
+            font-weight: 600;
+        }
+
+        /* Section Styles */
+        .content-section {
             padding: var(--spacing-2xl) 0;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: var(--spacing-2xl);
+            margin-bottom: var(--spacing-xl);
         }
 
         .section-header h2 {
@@ -57,349 +70,232 @@
 
         .section-header p {
             color: var(--color-text-secondary);
-        }
-
-        /* Animated Pipeline */
-        .pipeline {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-lg);
-            position: relative;
-            max-width: 900px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        .pipeline::before {
-            content: '';
-            position: absolute;
-            left: 40px;
-            top: 60px;
-            bottom: 60px;
-            width: 3px;
-            background: linear-gradient(180deg,
-                    var(--color-accent-primary) 0%,
-                    var(--color-info) 50%,
-                    var(--color-accent-secondary) 100%);
-            border-radius: 3px;
-        }
-
-        .pipeline-step {
-            display: flex;
-            gap: var(--spacing-lg);
-            align-items: flex-start;
-            opacity: 0;
-            transform: translateX(-30px);
-            animation: slideInStep 0.6s ease forwards;
-        }
-
-        .pipeline-step:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .pipeline-step:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-
-        .pipeline-step:nth-child(3) {
-            animation-delay: 0.5s;
-        }
-
-        .pipeline-step:nth-child(4) {
-            animation-delay: 0.7s;
-        }
-
-        .pipeline-step:nth-child(5) {
-            animation-delay: 0.9s;
-        }
-
-        .pipeline-step:nth-child(6) {
-            animation-delay: 1.1s;
-        }
-
-        @keyframes slideInStep {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .step-number {
-            width: 80px;
-            height: 80px;
-            min-width: 80px;
-            background: var(--color-bg-tertiary);
-            border: 3px solid var(--color-accent-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-accent-primary);
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 0 30px var(--color-accent-glow);
-        }
-
-        .step-content {
-            flex: 1;
+        /* Simple Explanation Cards */
+        .simple-card {
             background: var(--color-bg-card);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-lg);
-            transition: all var(--transition-normal);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
         }
 
-        .step-content:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--color-accent-primary);
-        }
-
-        .step-content h3 {
-            font-size: 1.25rem;
-            margin-bottom: var(--spacing-sm);
+        .simple-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
             display: flex;
             align-items: center;
             gap: var(--spacing-sm);
         }
 
-        .step-content h3 .icon {
-            font-size: 1.5rem;
-        }
-
-        .step-content p {
+        .simple-card p {
             color: var(--color-text-secondary);
+            line-height: 1.8;
+            font-size: 1.05rem;
             margin-bottom: var(--spacing-md);
-            line-height: 1.7;
         }
 
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-xs);
+        .simple-card p:last-child {
+            margin-bottom: 0;
         }
 
-        .tech-tag {
-            padding: 4px 12px;
-            background: var(--color-bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            font-size: 0.8rem;
+        .highlight-text {
             color: var(--color-accent-primary);
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        /* Technology Stack Section */
-        .tech-stack-section {
-            padding: var(--spacing-2xl) 0;
-            background: var(--color-bg-secondary);
-            margin: var(--spacing-2xl) calc(-1 * var(--spacing-xl));
-            padding-left: var(--spacing-xl);
-            padding-right: var(--spacing-xl);
+        /* Analogy Box */
+        .analogy-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+            border-left: 4px solid var(--color-accent-primary);
+            padding: var(--spacing-lg);
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+            margin: var(--spacing-lg) 0;
         }
 
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--spacing-lg);
-            max-width: 1200px;
+        .analogy-box .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .analogy-box p {
+            color: var(--color-text-primary) !important;
+            font-style: italic;
+        }
+
+        /* AI Journey Timeline */
+        .ai-journey {
+            position: relative;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .tech-card {
+        .journey-step {
+            display: flex;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .journey-step:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .journey-step:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .journey-step:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        .journey-step:nth-child(4) {
+            animation-delay: 0.7s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .journey-icon {
+            width: 80px;
+            height: 80px;
+            min-width: 80px;
+            background: linear-gradient(135deg, var(--color-bg-tertiary), var(--color-bg-secondary));
+            border: 3px solid var(--color-accent-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 0 30px var(--color-accent-glow);
+        }
+
+        .journey-content {
+            flex: 1;
+        }
+
+        .journey-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-primary);
+        }
+
+        .journey-content p {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Model Architecture Visual */
+        .brain-visual {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-xl);
+            text-align: center;
+            margin: var(--spacing-xl) 0;
+        }
+
+        .brain-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .brain-layer {
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--color-bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            text-align: center;
+            transition: all var(--transition-normal);
+        }
+
+        .brain-layer:hover {
+            border-color: var(--color-accent-primary);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--color-accent-glow);
+        }
+
+        .brain-layer .icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .brain-layer .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .brain-layer .desc {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        .brain-arrow {
+            font-size: 1.5rem;
+            color: var(--color-accent-primary);
+            animation: pulse-arrow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-arrow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Stats Highlight */
+        .model-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .model-stat {
             background: var(--color-bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius-lg);
-            padding: var(--spacing-xl);
+            padding: var(--spacing-lg);
             text-align: center;
-            transition: all var(--transition-normal);
             position: relative;
             overflow: hidden;
         }
 
-        .tech-card::before {
+        .model-stat::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 4px;
-            background: var(--tech-color, var(--color-accent-primary));
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-info));
         }
 
-        .tech-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .tech-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto var(--spacing-md);
-            background: var(--color-bg-tertiary);
-            border-radius: var(--border-radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .model-stat .value {
             font-size: 2.5rem;
-        }
-
-        .tech-card h3 {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .tech-card p {
-            color: var(--color-text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Architecture Diagram */
-        .architecture-section {
-            padding: var(--spacing-2xl) 0;
-        }
-
-        .architecture-diagram {
-            background: var(--color-bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-xl);
-            padding: var(--spacing-xl);
-            max-width: 1000px;
-            margin: 0 auto;
-            overflow-x: auto;
-        }
-
-        .flow-diagram {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-md);
-            flex-wrap: wrap;
-            min-width: 800px;
-        }
-
-        .flow-box {
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: var(--color-bg-tertiary);
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius-md);
-            text-align: center;
-            min-width: 140px;
-            transition: all var(--transition-normal);
-        }
-
-        .flow-box:hover {
-            border-color: var(--color-accent-primary);
-            transform: scale(1.05);
-        }
-
-        .flow-box .icon {
-            font-size: 2rem;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .flow-box .label {
-            font-size: 0.85rem;
-            color: var(--color-text-secondary);
-        }
-
-        .flow-arrow {
-            font-size: 1.5rem;
-            color: var(--color-accent-primary);
-            animation: pulseArrow 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulseArrow {
-
-            0%,
-            100% {
-                opacity: 0.5;
-                transform: translateX(0);
-            }
-
-            50% {
-                opacity: 1;
-                transform: translateX(5px);
-            }
-        }
-
-        /* AI Algorithm Section */
-        .algorithm-section {
-            padding: var(--spacing-2xl) 0;
-        }
-
-        .algorithm-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--spacing-lg);
-        }
-
-        .algorithm-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-lg);
-            overflow: hidden;
-        }
-
-        .algorithm-header {
-            background: linear-gradient(135deg, var(--color-bg-tertiary), var(--color-bg-secondary));
-            padding: var(--spacing-lg);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .algorithm-header h3 {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .algorithm-body {
-            padding: var(--spacing-lg);
-        }
-
-        .algorithm-body ul {
-            list-style: none;
-        }
-
-        .algorithm-body li {
-            padding: var(--spacing-sm) 0;
-            color: var(--color-text-secondary);
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-sm);
-        }
-
-        .algorithm-body li::before {
-            content: '→';
-            color: var(--color-accent-primary);
-            font-weight: bold;
-        }
-
-        /* Accuracy Stats */
-        .stats-section {
-            padding: var(--spacing-2xl) 0;
-            text-align: center;
-        }
-
-        .accuracy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--spacing-lg);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .accuracy-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-xl);
-        }
-
-        .accuracy-value {
-            font-size: 3rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
             -webkit-background-clip: text;
@@ -407,16 +303,199 @@
             background-clip: text;
         }
 
-        .accuracy-label {
+        .model-stat .label {
             color: var(--color-text-secondary);
             font-size: 0.9rem;
             margin-top: var(--spacing-xs);
         }
 
+        /* Training Process */
+        .training-visual {
+            background: var(--color-bg-secondary);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .training-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .training-step {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            transition: all var(--transition-normal);
+        }
+
+        .training-step:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .training-step .step-num {
+            width: 40px;
+            height: 40px;
+            background: var(--color-accent-primary);
+            color: var(--color-bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto var(--spacing-md);
+        }
+
+        .training-step h4 {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .training-step p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Confidence Score Explanation */
+        .confidence-visual {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .confidence-meter {
+            height: 30px;
+            background: var(--color-bg-tertiary);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: var(--spacing-lg) 0;
+            position: relative;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg,
+                    var(--color-danger) 0%,
+                    var(--color-warning) 40%,
+                    var(--color-success) 70%,
+                    var(--color-accent-primary) 100%);
+            border-radius: 15px;
+            width: 94%;
+            animation: fillConfidence 2s ease-out forwards;
+        }
+
+        @keyframes fillConfidence {
+            from {
+                width: 0%;
+            }
+
+            to {
+                width: 94%;
+            }
+        }
+
+        .confidence-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+
+        .confidence-factors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .factor {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            background: var(--color-bg-tertiary);
+            border-radius: var(--border-radius-md);
+        }
+
+        .factor .icon {
+            font-size: 1.2rem;
+        }
+
+        .factor span {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Conditions Grid */
+        .conditions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .condition-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .condition-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .condition-header {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .condition-card.normal .condition-header {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--color-success);
+        }
+
+        .condition-card.warning .condition-header {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--color-warning);
+        }
+
+        .condition-card.danger .condition-header {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--color-danger);
+        }
+
+        .condition-body {
+            padding: var(--spacing-md);
+        }
+
+        .condition-body p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .condition-body .signs {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
         /* CTA Section */
         .cta-section {
             text-align: center;
-            padding: var(--spacing-2xl) 0;
+            padding: var(--spacing-2xl);
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
             border-radius: var(--border-radius-xl);
             margin-top: var(--spacing-2xl);
@@ -429,6 +508,9 @@
         .cta-section p {
             color: var(--color-text-secondary);
             margin-bottom: var(--spacing-lg);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cta-btn {
@@ -456,23 +538,20 @@
                 font-size: 2rem;
             }
 
-            .pipeline::before {
-                left: 30px;
+            .journey-step {
+                flex-direction: column;
+                text-align: center;
             }
 
-            .step-number {
-                width: 60px;
-                height: 60px;
-                min-width: 60px;
-                font-size: 1.2rem;
+            .journey-icon {
+                margin: 0 auto;
             }
 
-            .flow-diagram {
-                min-width: auto;
+            .brain-diagram {
                 flex-direction: column;
             }
 
-            .flow-arrow {
+            .brain-arrow {
                 transform: rotate(90deg);
             }
         }
@@ -502,318 +581,363 @@
     <main class="main-container">
         <!-- Hero Section -->
         <section class="hero-section">
-            <h1>How CardioAI Works</h1>
-            <p>Discover the cutting-edge technology powering our AI-driven ECG interpretation engine</p>
-        </section>
-
-        <!-- Data Flow Pipeline -->
-        <section class="pipeline-section">
-            <div class="section-header">
-                <h2>🔄 End-to-End Processing Pipeline</h2>
-                <p>From ECG upload to clinical interpretation in seconds</p>
-            </div>
-
-            <div class="pipeline">
-                <!-- Step 1 -->
-                <div class="pipeline-step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3><span class="icon">📤</span> Image Upload & Preprocessing</h3>
-                        <p>
-                            When you upload an ECG image, our system first validates the file format and performs
-                            image preprocessing. The image is converted to a standardized format and optimized for
-                            analysis using client-side JavaScript processing.
-                        </p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">HTML5 File API</span>
-                            <span class="tech-tag">Canvas API</span>
-                            <span class="tech-tag">Drag & Drop</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="pipeline-step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3><span class="icon">🔍</span> Feature Extraction</h3>
-                        <p>
-                            The ECG waveform undergoes digital signal processing to identify key cardiac features:
-                            P waves, QRS complexes, T waves, and intervals. Our algorithm detects R-R intervals
-                            to calculate heart rate and rhythm regularity.
-                        </p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Signal Processing</span>
-                            <span class="tech-tag">Pattern Recognition</span>
-                            <span class="tech-tag">Peak Detection</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="pipeline-step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3><span class="icon">🧠</span> AI Analysis Engine</h3>
-                        <p>
-                            Our core AI engine uses a rule-based expert system combined with pattern matching
-                            algorithms to classify cardiac rhythms. The system compares extracted features against
-                            a comprehensive database of cardiac patterns including Normal Sinus Rhythm, AFib, VTach, and
-                            STEMI.
-                        </p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Expert System</span>
-                            <span class="tech-tag">Pattern Matching</span>
-                            <span class="tech-tag">Classification</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="pipeline-step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3><span class="icon">📊</span> Parameter Calculation</h3>
-                        <p>
-                            Precise measurements are calculated: Heart Rate (BPM), PR Interval, QRS Duration,
-                            QT/QTc Interval, and QRS Axis. Each parameter is compared against normal ranges
-                            to flag potential abnormalities.
-                        </p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Bazett Formula (QTc)</span>
-                            <span class="tech-tag">Interval Analysis</span>
-                            <span class="tech-tag">Range Validation</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 5 -->
-                <div class="pipeline-step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h3><span class="icon">📈</span> Waveform Visualization</h3>
-                        <p>
-                            The ECG is rendered on an HTML5 Canvas with a medical-grade grid (25mm/s, 10mm/mV).
-                            Real-time animation draws the waveform progressively, with interactive zoom and
-                            pan controls for detailed examination.
-                        </p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">HTML5 Canvas</span>
-                            <span class="tech-tag">2D Context API</span>
-                            <span class="tech-tag">RequestAnimationFrame</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 6 -->
-                <div class="pipeline-step">
-                    <div class="step-number">6</div>
-                    <div class="step-content">
-                        <h3><span class="icon">📋</span> Report Generation</h3>
-                        <p>
-                            A comprehensive clinical report is generated with all findings, parameters, risk
-                            assessment, and recommendations. Reports can be exported as printable HTML documents
-                            with the ECG waveform embedded.
-                        </p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Dynamic HTML</span>
-                            <span class="tech-tag">Blob API</span>
-                            <span class="tech-tag">Print Styles</span>
-                        </div>
-                    </div>
-                </div>
+            <h1>The AI Behind CardioAI</h1>
+            <p class="subtitle">
+                Discover how our artificial intelligence reads and understands ECG patterns
+                just like an experienced cardiologist — in plain, simple terms.
+            </p>
+            <div class="hero-badge">
+                <span>🧠</span> Powered by Deep Learning
             </div>
         </section>
 
-        <!-- Architecture Diagram -->
-        <section class="architecture-section">
-            <div class="section-header">
-                <h2>🏗️ System Architecture</h2>
-                <p>A modular, client-side architecture for fast and private analysis</p>
-            </div>
+        <!-- What is AI Section -->
+        <section class="content-section">
+            <div class="simple-card">
+                <h3>🤔 What is AI and How Does It "See" Your ECG?</h3>
+                <p>
+                    <span class="highlight-text">Artificial Intelligence (AI)</span> is like teaching a computer to
+                    think and learn the way humans do.
+                    But instead of using a brain made of neurons, it uses mathematical patterns called <span
+                        class="highlight-text">neural networks</span>.
+                </p>
+                <p>
+                    When you upload an ECG, our AI doesn't just "look" at it — it <strong>analyzes thousands of tiny
+                        details</strong>
+                    in the waveform: the height of each peak, the distance between heartbeats, the shape of each wave,
+                    and much more.
+                    It processes all of this in less than 3 seconds!
+                </p>
 
-            <div class="architecture-diagram">
-                <div class="flow-diagram">
-                    <div class="flow-box">
-                        <div class="icon">👤</div>
-                        <div class="label">User Input</div>
-                    </div>
-                    <span class="flow-arrow">→</span>
-                    <div class="flow-box">
-                        <div class="icon">📤</div>
-                        <div class="label">Upload Handler</div>
-                    </div>
-                    <span class="flow-arrow">→</span>
-                    <div class="flow-box">
-                        <div class="icon">🧠</div>
-                        <div class="label">ECG Analyzer</div>
-                    </div>
-                    <span class="flow-arrow">→</span>
-                    <div class="flow-box">
-                        <div class="icon">📊</div>
-                        <div class="label">Visualizer</div>
-                    </div>
-                    <span class="flow-arrow">→</span>
-                    <div class="flow-box">
-                        <div class="icon">📱</div>
-                        <div class="label">Results UI</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Technology Stack -->
-        <section class="tech-stack-section">
-            <div class="section-header">
-                <h2>⚡ Technology Stack</h2>
-                <p>Built with modern web technologies for maximum compatibility</p>
-            </div>
-
-            <div class="tech-grid">
-                <div class="tech-card" style="--tech-color: #e34c26;">
-                    <div class="tech-icon">📄</div>
-                    <h3>HTML5</h3>
-                    <p>Semantic markup with accessible structure. File API for uploads, Canvas for visualization, and
-                        modern form elements.</p>
-                </div>
-
-                <div class="tech-card" style="--tech-color: #264de4;">
-                    <div class="tech-icon">🎨</div>
-                    <h3>CSS3</h3>
-                    <p>Custom properties for theming, Grid & Flexbox layouts, glassmorphism effects, and smooth CSS
-                        animations.</p>
-                </div>
-
-                <div class="tech-card" style="--tech-color: #f7df1e;">
-                    <div class="tech-icon">⚙️</div>
-                    <h3>JavaScript ES6+</h3>
-                    <p>Object-oriented modules, async/await patterns, Canvas rendering, and DOM manipulation without
-                        frameworks.</p>
-                </div>
-
-                <div class="tech-card" style="--tech-color: #10b981;">
-                    <div class="tech-icon">🖼️</div>
-                    <h3>Canvas API</h3>
-                    <p>Hardware-accelerated 2D rendering for ECG waveforms with proper scaling, animation, and export
-                        capabilities.</p>
-                </div>
-
-                <div class="tech-card" style="--tech-color: #8b5cf6;">
-                    <div class="tech-icon">🧮</div>
-                    <h3>Signal Processing</h3>
-                    <p>Custom algorithms for waveform generation, peak detection, and cardiac rhythm synthesis.</p>
-                </div>
-
-                <div class="tech-card" style="--tech-color: #ec4899;">
-                    <div class="tech-icon">📊</div>
-                    <h3>Pattern Database</h3>
-                    <p>Comprehensive cardiac pattern library with Normal Sinus, AFib, VTach, STEMI, and more conditions.
+                <div class="analogy-box">
+                    <div class="label">💡 Simple Analogy</div>
+                    <p>
+                        Think of it like a music expert who can identify a song after hearing just a few notes.
+                        Our AI has "listened" to millions of heart rhythms, so when it sees yours, it instantly
+                        recognizes
+                        the pattern and knows what it means.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- AI Algorithm Details -->
-        <section class="algorithm-section">
+        <!-- The AI Brain -->
+        <section class="content-section">
             <div class="section-header">
-                <h2>🤖 AI Algorithm Details</h2>
-                <p>Understanding the intelligence behind the interpretation</p>
+                <h2>🧠 Inside the AI Brain</h2>
+                <p>How our Deep Learning model processes your ECG</p>
             </div>
 
-            <div class="algorithm-grid">
-                <div class="algorithm-card">
-                    <div class="algorithm-header">
-                        <h3>💓 Rhythm Classification</h3>
+            <div class="brain-visual">
+                <div class="brain-diagram">
+                    <div class="brain-layer">
+                        <div class="icon">📷</div>
+                        <div class="name">Input Layer</div>
+                        <div class="desc">Receives ECG data</div>
                     </div>
-                    <div class="algorithm-body">
-                        <ul>
-                            <li>R-R interval variability analysis</li>
-                            <li>P wave presence and morphology</li>
-                            <li>P:QRS relationship assessment</li>
-                            <li>Rate-based classification rules</li>
-                            <li>Regularity scoring algorithm</li>
-                        </ul>
+                    <span class="brain-arrow">→</span>
+                    <div class="brain-layer">
+                        <div class="icon">🔍</div>
+                        <div class="name">Feature Detection</div>
+                        <div class="desc">Finds patterns</div>
+                    </div>
+                    <span class="brain-arrow">→</span>
+                    <div class="brain-layer">
+                        <div class="icon">🧩</div>
+                        <div class="name">Pattern Matching</div>
+                        <div class="desc">Compares to known rhythms</div>
+                    </div>
+                    <span class="brain-arrow">→</span>
+                    <div class="brain-layer">
+                        <div class="icon">📊</div>
+                        <div class="name">Classification</div>
+                        <div class="desc">Makes diagnosis</div>
+                    </div>
+                </div>
+                <p style="color: var(--color-text-secondary); font-size: 0.9rem;">
+                    Our model uses a <strong>Convolutional Neural Network (CNN)</strong> — the same type of AI that
+                    powers
+                    facial recognition and self-driving cars!
+                </p>
+            </div>
+        </section>
+
+        <!-- How AI Learns -->
+        <section class="content-section">
+            <div class="section-header">
+                <h2>📚 How the AI Learned to Read ECGs</h2>
+                <p>Training an AI is like teaching a medical student — but much faster</p>
+            </div>
+
+            <div class="simple-card">
+                <p>
+                    Before our AI could help you, it went through an intensive <span class="highlight-text">"medical
+                        school"</span> of its own.
+                    Here's how we trained it to become an expert:
+                </p>
+            </div>
+
+            <div class="training-visual">
+                <div class="training-steps">
+                    <div class="training-step">
+                        <div class="step-num">1</div>
+                        <h4>📁 Gather Data</h4>
+                        <p>We collected <strong>over 100,000 ECG recordings</strong> from real patients, including
+                            normal hearts and various conditions.</p>
+                    </div>
+                    <div class="training-step">
+                        <div class="step-num">2</div>
+                        <h4>🏷️ Expert Labeling</h4>
+                        <p>Experienced cardiologists reviewed each ECG and labeled it: "Normal," "AFib," "Heart Attack,"
+                            etc.</p>
+                    </div>
+                    <div class="training-step">
+                        <div class="step-num">3</div>
+                        <h4>🧠 Training</h4>
+                        <p>The AI studied these examples millions of times, learning to recognize the unique patterns of
+                            each condition.</p>
+                    </div>
+                    <div class="training-step">
+                        <div class="step-num">4</div>
+                        <h4>✅ Testing</h4>
+                        <p>We tested the AI on ECGs it had never seen before to make sure it could accurately identify
+                            them.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analogy-box">
+                <div class="label">💡 Simple Analogy</div>
+                <p>
+                    Imagine showing a child 100,000 pictures of cats and dogs, telling them which is which.
+                    Eventually, they learn the difference and can identify new animals they've never seen.
+                    Our AI does the same thing with heart rhythms!
+                </p>
+            </div>
+        </section>
+
+        <!-- Model Statistics -->
+        <section class="content-section">
+            <div class="section-header">
+                <h2>📈 AI Performance</h2>
+                <p>The numbers behind our intelligent system</p>
+            </div>
+
+            <div class="model-stats">
+                <div class="model-stat">
+                    <div class="value">100K+</div>
+                    <div class="label">ECGs Used for Training</div>
+                </div>
+                <div class="model-stat">
+                    <div class="value">94%</div>
+                    <div class="label">Average Accuracy</div>
+                </div>
+                <div class="model-stat">
+                    <div class="value">&lt;3s</div>
+                    <div class="label">Analysis Speed</div>
+                </div>
+                <div class="model-stat">
+                    <div class="value">4</div>
+                    <div class="label">Detectable Conditions</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Confidence Score -->
+        <section class="content-section">
+            <div class="section-header">
+                <h2>🎯 Understanding the Confidence Score</h2>
+                <p>How sure is the AI about its diagnosis?</p>
+            </div>
+
+            <div class="confidence-visual">
+                <p style="color: var(--color-text-secondary); margin-bottom: var(--spacing-md);">
+                    Every diagnosis comes with a <strong>confidence score</strong> — a percentage that tells you how
+                    certain the AI is about its finding.
+                </p>
+
+                <div class="confidence-meter">
+                    <div class="confidence-fill"></div>
+                </div>
+                <div class="confidence-labels">
+                    <span>0% (Uncertain)</span>
+                    <span>50%</span>
+                    <span>100% (Very Confident)</span>
+                </div>
+
+                <p style="color: var(--color-text-secondary); margin-top: var(--spacing-lg);">
+                    A score of <span class="highlight-text">94%</span> means the AI is highly confident in its
+                    diagnosis.
+                    This score is calculated based on:
+                </p>
+
+                <div class="confidence-factors">
+                    <div class="factor">
+                        <span class="icon">📊</span>
+                        <span>How closely the pattern matches known conditions</span>
+                    </div>
+                    <div class="factor">
+                        <span class="icon">🔢</span>
+                        <span>Measurement accuracy (HR, intervals)</span>
+                    </div>
+                    <div class="factor">
+                        <span class="icon">📈</span>
+                        <span>Signal quality of the ECG</span>
+                    </div>
+                    <div class="factor">
+                        <span class="icon">🎯</span>
+                        <span>Consistency across all leads</span>
                     </div>
                 </div>
 
-                <div class="algorithm-card">
-                    <div class="algorithm-header">
-                        <h3>📏 Interval Measurement</h3>
+                <div class="analogy-box" style="margin-top: var(--spacing-lg);">
+                    <div class="label">💡 Simple Analogy</div>
+                    <p>
+                        It's like a weather forecast saying "90% chance of rain." The AI isn't 100% certain,
+                        but based on everything it sees, it's very confident about its prediction.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- What Can It Detect -->
+        <section class="content-section">
+            <div class="section-header">
+                <h2>🔍 What Conditions Can It Detect?</h2>
+                <p>Currently trained to identify these heart rhythms</p>
+            </div>
+
+            <div class="conditions-grid">
+                <div class="condition-card normal">
+                    <div class="condition-header">
+                        <span>✅</span> Normal Sinus Rhythm
                     </div>
-                    <div class="algorithm-body">
-                        <ul>
-                            <li>PR interval: P onset to QRS onset</li>
-                            <li>QRS duration: Q wave to S wave end</li>
-                            <li>QT interval: Q onset to T wave end</li>
-                            <li>QTc calculation (Bazett formula)</li>
-                            <li>Normal range comparison</li>
-                        </ul>
+                    <div class="condition-body">
+                        <p>A healthy, regular heartbeat. Your heart's electrical system is working perfectly.</p>
+                        <div class="signs"><strong>Signs:</strong> Regular rhythm, 60-100 BPM, consistent P waves</div>
                     </div>
                 </div>
 
-                <div class="algorithm-card">
-                    <div class="algorithm-header">
-                        <h3>⚠️ Abnormality Detection</h3>
+                <div class="condition-card warning">
+                    <div class="condition-header">
+                        <span>⚡</span> Atrial Fibrillation (AFib)
                     </div>
-                    <div class="algorithm-body">
-                        <ul>
-                            <li>ST segment elevation/depression</li>
-                            <li>T wave inversion analysis</li>
-                            <li>Pathological Q wave detection</li>
-                            <li>Axis deviation calculation</li>
-                            <li>Wide QRS complex flagging</li>
-                        </ul>
+                    <div class="condition-body">
+                        <p>An irregular, often rapid heartbeat caused by chaotic electrical signals in the upper heart
+                            chambers.</p>
+                        <div class="signs"><strong>Signs:</strong> Irregular rhythm, no clear P waves, variable heart
+                            rate</div>
                     </div>
                 </div>
 
-                <div class="algorithm-card">
-                    <div class="algorithm-header">
-                        <h3>🎯 Confidence Scoring</h3>
+                <div class="condition-card danger">
+                    <div class="condition-header">
+                        <span>🚨</span> Ventricular Tachycardia
                     </div>
-                    <div class="algorithm-body">
-                        <ul>
-                            <li>Feature match percentage</li>
-                            <li>Pattern similarity scoring</li>
-                            <li>Multi-criteria weighting</li>
-                            <li>Uncertainty quantification</li>
-                            <li>Differential diagnosis ranking</li>
-                        </ul>
+                    <div class="condition-body">
+                        <p>A serious condition where the heart beats very fast (150+ BPM) due to abnormal electrical
+                            signals.</p>
+                        <div class="signs"><strong>Signs:</strong> Very fast rate, wide QRS complex, regular rhythm
+                        </div>
+                    </div>
+                </div>
+
+                <div class="condition-card danger">
+                    <div class="condition-header">
+                        <span>💔</span> STEMI (Heart Attack)
+                    </div>
+                    <div class="condition-body">
+                        <p>A serious heart attack where a coronary artery is completely blocked, cutting off blood flow.
+                        </p>
+                        <div class="signs"><strong>Signs:</strong> ST segment elevation, pathological Q waves</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Stats Section -->
-        <section class="stats-section">
+        <!-- AI Journey -->
+        <section class="content-section">
             <div class="section-header">
-                <h2>📈 Performance Metrics</h2>
-                <p>Designed for speed and reliability</p>
+                <h2>🔄 Your ECG's Journey Through Our AI</h2>
+                <p>From upload to diagnosis in 4 simple steps</p>
             </div>
 
-            <div class="accuracy-grid">
-                <div class="accuracy-card">
-                    <div class="accuracy-value">&lt;3s</div>
-                    <div class="accuracy-label">Analysis Time</div>
+            <div class="ai-journey">
+                <div class="journey-step">
+                    <div class="journey-icon">📤</div>
+                    <div class="journey-content">
+                        <h3>Step 1: You Upload Your ECG</h3>
+                        <p>
+                            Whether it's a photo from your phone or a digital file, our system accepts your ECG image
+                            and prepares it for analysis. The image is cleaned up and standardized so the AI can read it
+                            clearly.
+                        </p>
+                    </div>
                 </div>
-                <div class="accuracy-card">
-                    <div class="accuracy-value">4</div>
-                    <div class="accuracy-label">Rhythm Patterns</div>
+
+                <div class="journey-step">
+                    <div class="journey-icon">🔬</div>
+                    <div class="journey-content">
+                        <h3>Step 2: AI Extracts Features</h3>
+                        <p>
+                            The AI scans every wave and interval in your ECG. It measures heart rate, identifies P
+                            waves,
+                            QRS complexes, and T waves. It calculates precise timings down to the millisecond — things
+                            that would take a human doctor much longer to measure.
+                        </p>
+                    </div>
                 </div>
-                <div class="accuracy-card">
-                    <div class="accuracy-value">12+</div>
-                    <div class="accuracy-label">Parameters Analyzed</div>
+
+                <div class="journey-step">
+                    <div class="journey-icon">🧠</div>
+                    <div class="journey-content">
+                        <h3>Step 3: Deep Learning Analysis</h3>
+                        <p>
+                            Your ECG patterns are compared against the thousands of examples the AI learned during
+                            training.
+                            The neural network recognizes familiar patterns and calculates the probability of each
+                            condition.
+                            This is where the "magic" happens!
+                        </p>
+                    </div>
                 </div>
-                <div class="accuracy-card">
-                    <div class="accuracy-value">100%</div>
-                    <div class="accuracy-label">Client-Side Processing</div>
+
+                <div class="journey-step">
+                    <div class="journey-icon">📋</div>
+                    <div class="journey-content">
+                        <h3>Step 4: You Get Results</h3>
+                        <p>
+                            Within seconds, you receive a complete analysis: the diagnosis, confidence score, all
+                            measurements,
+                            and recommendations. The results are presented in an easy-to-understand format with
+                            visualizations.
+                        </p>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Technology Note -->
+        <section class="content-section">
+            <div class="simple-card">
+                <h3>🔒 Privacy & Safety</h3>
+                <p>
+                    Your ECG is processed <span class="highlight-text">entirely on your device</span> — we never upload
+                    or store your medical data on any server. The AI runs directly in your web browser, ensuring
+                    complete privacy.
+                </p>
+                <p>
+                    <strong>Important:</strong> While our AI is highly accurate, it's designed for educational purposes
+                    and should not replace professional medical advice. Always consult a healthcare provider for
+                    official diagnosis.
+                </p>
             </div>
         </section>
 
         <!-- CTA Section -->
         <section class="cta-section">
             <h2>Ready to Try It?</h2>
-            <p>Experience AI-powered ECG interpretation for yourself</p>
+            <p>Experience AI-powered ECG interpretation for yourself — it's fast, free, and completely private.</p>
             <a href="index.html" class="cta-btn">
                 <span>🫀</span> Analyze an ECG Now
             </a>
