@@ -131,130 +131,424 @@
             font-style: italic;
         }
 
-        /* AI Journey Timeline */
-        .ai-journey {
-            position: relative;
-            max-width: 900px;
-            margin: 0 auto;
+        /* ================================================
+       DEEP LEARNING SECTION - NEW DETAILED CONTENT
+       ================================================ */
+
+        .deep-learning-section {
+            background: var(--color-bg-secondary);
+            margin: var(--spacing-2xl) calc(-1 * var(--spacing-xl));
+            padding: var(--spacing-2xl) var(--spacing-xl);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .journey-step {
-            display: flex;
-            gap: var(--spacing-xl);
-            margin-bottom: var(--spacing-xl);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.6s ease forwards;
-        }
-
-        .journey-step:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .journey-step:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-
-        .journey-step:nth-child(3) {
-            animation-delay: 0.5s;
-        }
-
-        .journey-step:nth-child(4) {
-            animation-delay: 0.7s;
-        }
-
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .journey-icon {
-            width: 80px;
-            height: 80px;
-            min-width: 80px;
-            background: linear-gradient(135deg, var(--color-bg-tertiary), var(--color-bg-secondary));
-            border: 3px solid var(--color-accent-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 0 30px var(--color-accent-glow);
-        }
-
-        .journey-content {
-            flex: 1;
-        }
-
-        .journey-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: var(--spacing-sm);
-            color: var(--color-text-primary);
-        }
-
-        .journey-content p {
-            color: var(--color-text-secondary);
-            line-height: 1.7;
-        }
-
-        /* Model Architecture Visual */
-        .brain-visual {
+        /* Neural Network Visualization */
+        .neural-network-visual {
             background: var(--color-bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius-xl);
             padding: var(--spacing-xl);
-            text-align: center;
             margin: var(--spacing-xl) 0;
+            overflow: hidden;
         }
 
-        .brain-diagram {
+        .nn-diagram {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: var(--spacing-lg);
-            flex-wrap: wrap;
-            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-xl) 0;
+            overflow-x: auto;
         }
 
-        .brain-layer {
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: var(--color-bg-tertiary);
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius-md);
-            text-align: center;
-            transition: all var(--transition-normal);
+        .nn-layer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
         }
 
-        .brain-layer:hover {
-            border-color: var(--color-accent-primary);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px var(--color-accent-glow);
+        .nn-layer-label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-sm);
         }
 
-        .brain-layer .icon {
-            font-size: 2rem;
-            margin-bottom: var(--spacing-xs);
+        .nn-nodes {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .brain-layer .name {
+        .nn-node {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
             font-weight: 600;
-            font-size: 0.9rem;
+            animation: pulse-node 2s ease-in-out infinite;
         }
 
-        .brain-layer .desc {
+        .nn-node.input {
+            background: var(--color-info);
+            color: white;
+        }
+
+        .nn-node.hidden {
+            background: var(--color-warning);
+            color: white;
+        }
+
+        .nn-node.output {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .nn-node:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .nn-node:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .nn-node:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .nn-node:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes pulse-node {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .nn-connections {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nn-connection {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-info));
+            opacity: 0.5;
+            animation: flow-connection 1.5s ease-in-out infinite;
+        }
+
+        .nn-connection:nth-child(odd) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes flow-connection {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Neuron Explanation */
+        .neuron-explainer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            align-items: center;
+        }
+
+        .neuron-visual {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .neuron-circle {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto var(--spacing-md);
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-info));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 0 40px var(--color-accent-glow);
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px var(--color-accent-glow);
+            }
+
+            50% {
+                box-shadow: 0 0 60px var(--color-accent-glow), 0 0 80px rgba(16, 185, 129, 0.2);
+            }
+        }
+
+        .neuron-inputs {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .neuron-input-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             font-size: 0.75rem;
             color: var(--color-text-muted);
         }
 
-        .brain-arrow {
-            font-size: 1.5rem;
+        .neuron-input-arrow .arrow {
+            font-size: 1.2rem;
             color: var(--color-accent-primary);
-            animation: pulse-arrow 1.5s ease-in-out infinite;
+            animation: bounce-arrow 1s ease-in-out infinite;
         }
 
-        @keyframes pulse-arrow {
+        @keyframes bounce-arrow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* CNN Layer Visualization */
+        .cnn-visualization {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            overflow-x: auto;
+        }
+
+        .cnn-pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: var(--spacing-md);
+            min-width: 900px;
+            padding: var(--spacing-lg) 0;
+        }
+
+        .cnn-stage {
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .cnn-stage-label {
+            font-size: 0.7rem;
+            color: var(--color-accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .cnn-stage-box {
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-sm);
+            background: var(--color-bg-tertiary);
+            transition: all var(--transition-normal);
+        }
+
+        .cnn-stage:hover .cnn-stage-box {
+            border-color: var(--color-accent-primary);
+            box-shadow: 0 0 20px var(--color-accent-glow);
+        }
+
+        .cnn-stage-name {
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+            margin-top: var(--spacing-xs);
+        }
+
+        /* ECG Input Visual */
+        .ecg-input-visual {
+            width: 80px;
+            height: 60px;
+            background: var(--color-bg-secondary);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ecg-wave-mini {
+            position: absolute;
+            bottom: 50%;
+            left: 0;
+            width: 200%;
+            height: 2px;
+            background: var(--color-accent-primary);
+            animation: ecg-scroll 2s linear infinite;
+        }
+
+        .ecg-wave-mini::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    transparent 10%,
+                    var(--color-accent-primary) 10%,
+                    var(--color-accent-primary) 12%,
+                    transparent 12%,
+                    transparent 15%,
+                    var(--color-accent-primary) 15%,
+                    var(--color-accent-primary) 16%,
+                    transparent 16%,
+                    transparent 20%);
+            background-size: 50px 100%;
+            transform: scaleY(20);
+        }
+
+        @keyframes ecg-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Filter Grid Visual */
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+        }
+
+        .filter-cell {
+            background: var(--color-accent-primary);
+            border-radius: 2px;
+            animation: filter-pulse 1.5s ease-in-out infinite;
+        }
+
+        .filter-cell:nth-child(1) {
+            animation-delay: 0s;
+            opacity: 0.3;
+        }
+
+        .filter-cell:nth-child(2) {
+            animation-delay: 0.1s;
+            opacity: 0.6;
+        }
+
+        .filter-cell:nth-child(3) {
+            animation-delay: 0.2s;
+            opacity: 0.3;
+        }
+
+        .filter-cell:nth-child(4) {
+            animation-delay: 0.3s;
+            opacity: 0.8;
+        }
+
+        .filter-cell:nth-child(5) {
+            animation-delay: 0.4s;
+            opacity: 1;
+        }
+
+        .filter-cell:nth-child(6) {
+            animation-delay: 0.5s;
+            opacity: 0.8;
+        }
+
+        .filter-cell:nth-child(7) {
+            animation-delay: 0.6s;
+            opacity: 0.3;
+        }
+
+        .filter-cell:nth-child(8) {
+            animation-delay: 0.7s;
+            opacity: 0.6;
+        }
+
+        .filter-cell:nth-child(9) {
+            animation-delay: 0.8s;
+            opacity: 0.3;
+        }
+
+        @keyframes filter-pulse {
+
+            0%,
+            100% {
+                transform: scale(0.9);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        /* Feature Maps Visual */
+        .feature-maps {
+            display: flex;
+            gap: 4px;
+        }
+
+        .feature-map {
+            width: 35px;
+            height: 45px;
+            background: linear-gradient(180deg, var(--color-info), var(--color-accent-primary));
+            border-radius: 4px;
+            opacity: 0.8;
+            animation: feature-fade 2s ease-in-out infinite;
+        }
+
+        .feature-map:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .feature-map:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .feature-map:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes feature-fade {
 
             0%,
             100% {
@@ -266,7 +560,203 @@
             }
         }
 
-        /* Stats Highlight */
+        /* Pooling Visual */
+        .pooling-visual {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3px;
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+        }
+
+        .pool-cell {
+            background: var(--color-warning);
+            border-radius: 3px;
+        }
+
+        /* FC Layer Visual */
+        .fc-nodes {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .fc-node {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--color-success);
+            animation: fc-pulse 1.5s ease-in-out infinite;
+        }
+
+        .fc-node:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .fc-node:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .fc-node:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes fc-pulse {
+
+            0%,
+            100% {
+                opacity: 0.6;
+                transform: scale(0.9);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Output Visual */
+        .output-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 80px;
+        }
+
+        .output-bar {
+            height: 12px;
+            background: var(--color-bg-secondary);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .output-fill {
+            height: 100%;
+            border-radius: 6px;
+            animation: fill-bar 3s ease-in-out infinite;
+        }
+
+        .output-bar:nth-child(1) .output-fill {
+            background: var(--color-success);
+            width: 90%;
+        }
+
+        .output-bar:nth-child(2) .output-fill {
+            background: var(--color-warning);
+            width: 5%;
+        }
+
+        .output-bar:nth-child(3) .output-fill {
+            background: var(--color-danger);
+            width: 3%;
+        }
+
+        .output-bar:nth-child(4) .output-fill {
+            background: var(--color-info);
+            width: 2%;
+        }
+
+        .output-labels {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.6rem;
+            color: var(--color-text-muted);
+            margin-top: var(--spacing-xs);
+        }
+
+        /* CNN Arrow */
+        .cnn-arrow {
+            font-size: 1.5rem;
+            color: var(--color-accent-primary);
+            animation: arrow-pulse 1s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes arrow-pulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: translateX(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(3px);
+            }
+        }
+
+        /* CNN Step-by-Step Cards */
+        .cnn-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .cnn-step-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            position: relative;
+            overflow: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .cnn-step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--step-color, var(--color-accent-primary));
+        }
+
+        .cnn-step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--step-color, var(--color-accent-primary));
+        }
+
+        .cnn-step-num {
+            position: absolute;
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            width: 32px;
+            height: 32px;
+            background: var(--step-color, var(--color-accent-primary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .cnn-step-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .cnn-step-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .cnn-step-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Model Stats */
         .model-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -538,21 +1028,12 @@
                 font-size: 2rem;
             }
 
-            .journey-step {
-                flex-direction: column;
-                text-align: center;
+            .neuron-explainer {
+                grid-template-columns: 1fr;
             }
 
-            .journey-icon {
-                margin: 0 auto;
-            }
-
-            .brain-diagram {
-                flex-direction: column;
-            }
-
-            .brain-arrow {
-                transform: rotate(90deg);
+            .cnn-pipeline {
+                min-width: 600px;
             }
         }
     </style>
@@ -621,43 +1102,379 @@
             </div>
         </section>
 
-        <!-- The AI Brain -->
-        <section class="content-section">
+        <!-- ================================================
+         DEEP LEARNING DEEP DIVE - NEW SECTION
+         ================================================ -->
+        <section class="deep-learning-section">
             <div class="section-header">
-                <h2>🧠 Inside the AI Brain</h2>
-                <p>How our Deep Learning model processes your ECG</p>
+                <h2>🧠 Deep Learning: The Brain of Our AI</h2>
+                <p>Understanding how computers learn to "see" like doctors</p>
             </div>
 
-            <div class="brain-visual">
-                <div class="brain-diagram">
-                    <div class="brain-layer">
-                        <div class="icon">📷</div>
-                        <div class="name">Input Layer</div>
-                        <div class="desc">Receives ECG data</div>
+            <!-- What is Deep Learning -->
+            <div class="simple-card">
+                <h3>🌊 What is Deep Learning?</h3>
+                <p>
+                    <span class="highlight-text">Deep Learning</span> is a type of AI that's inspired by the human
+                    brain.
+                    Just like your brain has billions of neurons connected together, deep learning uses artificial
+                    "neurons"
+                    organized in layers — that's why it's called "deep"!
+                </p>
+                <p>
+                    Each layer learns something different. The first layers learn simple things (like edges and lines),
+                    while deeper layers learn complex patterns (like the shape of a heartbeat). By stacking many layers,
+                    the AI can understand incredibly complex patterns.
+                </p>
+
+                <div class="analogy-box">
+                    <div class="label">💡 Simple Analogy</div>
+                    <p>
+                        Imagine learning to read. First, you learn the alphabet (simple shapes). Then you learn words
+                        (combining letters).
+                        Then sentences (combining words). Finally, you understand entire stories. Deep learning works
+                        the same way —
+                        learning simple things first, then combining them to understand complex patterns!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Neural Network Visual -->
+            <div class="neural-network-visual">
+                <h4 style="text-align: center; margin-bottom: var(--spacing-lg);">🔗 How a Neural Network is Structured
+                </h4>
+                <div class="nn-diagram">
+                    <div class="nn-layer">
+                        <div class="nn-layer-label">Input Layer</div>
+                        <div class="nn-nodes">
+                            <div class="nn-node input">📊</div>
+                            <div class="nn-node input">📈</div>
+                            <div class="nn-node input">📉</div>
+                            <div class="nn-node input">💓</div>
+                        </div>
+                        <small style="color: var(--color-text-muted); margin-top: 8px;">ECG Data</small>
                     </div>
-                    <span class="brain-arrow">→</span>
-                    <div class="brain-layer">
-                        <div class="icon">🔍</div>
-                        <div class="name">Feature Detection</div>
-                        <div class="desc">Finds patterns</div>
+
+                    <div class="nn-connections">
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
                     </div>
-                    <span class="brain-arrow">→</span>
-                    <div class="brain-layer">
-                        <div class="icon">🧩</div>
-                        <div class="name">Pattern Matching</div>
-                        <div class="desc">Compares to known rhythms</div>
+
+                    <div class="nn-layer">
+                        <div class="nn-layer-label">Hidden Layer 1</div>
+                        <div class="nn-nodes">
+                            <div class="nn-node hidden"></div>
+                            <div class="nn-node hidden"></div>
+                            <div class="nn-node hidden"></div>
+                            <div class="nn-node hidden"></div>
+                        </div>
+                        <small style="color: var(--color-text-muted); margin-top: 8px;">Find Patterns</small>
                     </div>
-                    <span class="brain-arrow">→</span>
-                    <div class="brain-layer">
-                        <div class="icon">📊</div>
-                        <div class="name">Classification</div>
-                        <div class="desc">Makes diagnosis</div>
+
+                    <div class="nn-connections">
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                    </div>
+
+                    <div class="nn-layer">
+                        <div class="nn-layer-label">Hidden Layer 2</div>
+                        <div class="nn-nodes">
+                            <div class="nn-node hidden"></div>
+                            <div class="nn-node hidden"></div>
+                            <div class="nn-node hidden"></div>
+                        </div>
+                        <small style="color: var(--color-text-muted); margin-top: 8px;">Combine Patterns</small>
+                    </div>
+
+                    <div class="nn-connections">
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                        <div class="nn-connection"></div>
+                    </div>
+
+                    <div class="nn-layer">
+                        <div class="nn-layer-label">Output Layer</div>
+                        <div class="nn-nodes">
+                            <div class="nn-node output">✓</div>
+                            <div class="nn-node output">⚡</div>
+                            <div class="nn-node output">⚠️</div>
+                            <div class="nn-node output">🚨</div>
+                        </div>
+                        <small style="color: var(--color-text-muted); margin-top: 8px;">Diagnosis</small>
                     </div>
                 </div>
-                <p style="color: var(--color-text-secondary); font-size: 0.9rem;">
-                    Our model uses a <strong>Convolutional Neural Network (CNN)</strong> — the same type of AI that
-                    powers
-                    facial recognition and self-driving cars!
+                <p
+                    style="text-align: center; color: var(--color-text-secondary); font-size: 0.9rem; margin-top: var(--spacing-md);">
+                    Each circle is a "neuron" — a tiny decision-maker. Together, they form a powerful brain!
+                </p>
+            </div>
+
+            <!-- Single Neuron Explanation -->
+            <div class="neuron-explainer">
+                <div class="neuron-visual">
+                    <div class="neuron-circle">⚡</div>
+                    <h4>A Single Neuron</h4>
+                    <div class="neuron-inputs">
+                        <div class="neuron-input-arrow">
+                            <span class="arrow">↑</span>
+                            <span>Input 1</span>
+                        </div>
+                        <div class="neuron-input-arrow">
+                            <span class="arrow">↑</span>
+                            <span>Input 2</span>
+                        </div>
+                        <div class="neuron-input-arrow">
+                            <span class="arrow">↑</span>
+                            <span>Input 3</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3>⚡ How Does One Neuron Work?</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8;">
+                        Each artificial neuron is like a tiny decision-maker. It takes in several numbers (inputs),
+                        does some math, and produces one number (output).
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top: var(--spacing-md);">
+                        <strong>Here's what happens inside:</strong>
+                    </p>
+                    <ol style="color: var(--color-text-secondary); line-height: 2; margin-left: 20px;">
+                        <li>Receives multiple inputs (numbers from ECG data)</li>
+                        <li>Multiplies each by a "weight" (how important is this?)</li>
+                        <li>Adds them all together</li>
+                        <li>Applies an "activation function" (to decide: fire or not?)</li>
+                        <li>Sends the result to the next layer</li>
+                    </ol>
+                    <div class="analogy-box" style="margin-top: var(--spacing-md);">
+                        <div class="label">💡 Simple Analogy</div>
+                        <p>
+                            It's like voting! Each input "votes" for what it thinks. The neuron counts all votes,
+                            weighs some more heavily than others, and makes a final decision.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CNN Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <h2>🔬 CNN: The Heart of Our ECG Analysis</h2>
+                <p>Convolutional Neural Networks — the specialized AI for seeing patterns</p>
+            </div>
+
+            <div class="simple-card">
+                <h3>🖼️ What is a CNN?</h3>
+                <p>
+                    A <span class="highlight-text">Convolutional Neural Network (CNN)</span> is a special type of deep
+                    learning
+                    designed specifically for analyzing images and visual patterns. It's the same technology that
+                    powers:
+                </p>
+                <ul
+                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 20px; margin-bottom: var(--spacing-md);">
+                    <li>📱 Face recognition on your phone</li>
+                    <li>🚗 Self-driving cars seeing the road</li>
+                    <li>🏥 Medical imaging (X-rays, MRIs, CT scans)</li>
+                    <li>💓 And our ECG interpreter!</li>
+                </ul>
+                <p>
+                    <strong>Why CNN for ECG?</strong> Because an ECG is essentially a visual pattern! The peaks,
+                    valleys,
+                    and waves all have specific shapes that indicate heart health. CNNs are experts at spotting these
+                    patterns.
+                </p>
+            </div>
+
+            <!-- CNN Pipeline Visualization -->
+            <div class="cnn-visualization">
+                <h4 style="text-align: center; margin-bottom: var(--spacing-lg);">🔄 How CNN Processes Your ECG (Step by
+                    Step)</h4>
+                <div class="cnn-pipeline">
+                    <!-- Input -->
+                    <div class="cnn-stage">
+                        <div class="cnn-stage-label">Step 1</div>
+                        <div class="cnn-stage-box">
+                            <div class="ecg-input-visual">
+                                <div class="ecg-wave-mini"></div>
+                            </div>
+                        </div>
+                        <div class="cnn-stage-name">Your ECG</div>
+                    </div>
+
+                    <span class="cnn-arrow">→</span>
+
+                    <!-- Convolution -->
+                    <div class="cnn-stage">
+                        <div class="cnn-stage-label">Step 2</div>
+                        <div class="cnn-stage-box">
+                            <div class="filter-grid">
+                                <div class="filter-cell"></div>
+                                <div class="filter-cell"></div>
+                                <div class="filter-cell"></div>
+                                <div class="filter-cell"></div>
+                                <div class="filter-cell"></div>
+                                <div class="filter-cell"></div>
+                                <div class="filter-cell"></div>
+                                <div class="filter-cell"></div>
+                                <div class="filter-cell"></div>
+                            </div>
+                        </div>
+                        <div class="cnn-stage-name">Filters Scan</div>
+                    </div>
+
+                    <span class="cnn-arrow">→</span>
+
+                    <!-- Feature Maps -->
+                    <div class="cnn-stage">
+                        <div class="cnn-stage-label">Step 3</div>
+                        <div class="cnn-stage-box">
+                            <div class="feature-maps">
+                                <div class="feature-map"></div>
+                                <div class="feature-map"></div>
+                                <div class="feature-map"></div>
+                            </div>
+                        </div>
+                        <div class="cnn-stage-name">Features Found</div>
+                    </div>
+
+                    <span class="cnn-arrow">→</span>
+
+                    <!-- Pooling -->
+                    <div class="cnn-stage">
+                        <div class="cnn-stage-label">Step 4</div>
+                        <div class="cnn-stage-box">
+                            <div class="pooling-visual">
+                                <div class="pool-cell"></div>
+                                <div class="pool-cell"></div>
+                                <div class="pool-cell"></div>
+                                <div class="pool-cell"></div>
+                            </div>
+                        </div>
+                        <div class="cnn-stage-name">Simplified</div>
+                    </div>
+
+                    <span class="cnn-arrow">→</span>
+
+                    <!-- Fully Connected -->
+                    <div class="cnn-stage">
+                        <div class="cnn-stage-label">Step 5</div>
+                        <div class="cnn-stage-box">
+                            <div class="fc-nodes">
+                                <div class="fc-node"></div>
+                                <div class="fc-node"></div>
+                                <div class="fc-node"></div>
+                            </div>
+                        </div>
+                        <div class="cnn-stage-name">Decide</div>
+                    </div>
+
+                    <span class="cnn-arrow">→</span>
+
+                    <!-- Output -->
+                    <div class="cnn-stage">
+                        <div class="cnn-stage-label">Step 6</div>
+                        <div class="cnn-stage-box">
+                            <div class="output-bars">
+                                <div class="output-bar">
+                                    <div class="output-fill"></div>
+                                </div>
+                                <div class="output-bar">
+                                    <div class="output-fill"></div>
+                                </div>
+                                <div class="output-bar">
+                                    <div class="output-fill"></div>
+                                </div>
+                                <div class="output-bar">
+                                    <div class="output-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cnn-stage-name">Diagnosis!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CNN Steps Explained -->
+            <div class="cnn-steps">
+                <div class="cnn-step-card" style="--step-color: #3b82f6;">
+                    <div class="cnn-step-num">1</div>
+                    <div class="cnn-step-icon">📊</div>
+                    <h4>Input: Your ECG</h4>
+                    <p>
+                        Your ECG image enters the CNN as a grid of numbers, where each number represents
+                        how dark or light that pixel is. For an ECG waveform, peaks are high numbers, valleys are low.
+                    </p>
+                </div>
+
+                <div class="cnn-step-card" style="--step-color: #8b5cf6;">
+                    <div class="cnn-step-num">2</div>
+                    <div class="cnn-step-icon">🔍</div>
+                    <h4>Convolution: Pattern Scanning</h4>
+                    <p>
+                        Small "filters" slide across your ECG like a magnifying glass. Each filter is trained to spot
+                        a specific pattern — one might look for sharp peaks (R waves), another for gentle curves (T
+                        waves).
+                    </p>
+                </div>
+
+                <div class="cnn-step-card" style="--step-color: #ec4899;">
+                    <div class="cnn-step-num">3</div>
+                    <div class="cnn-step-icon">🗺️</div>
+                    <h4>Feature Maps: What Was Found</h4>
+                    <p>
+                        After scanning, the CNN creates "maps" showing WHERE it found each pattern. "I found an R wave
+                        here,
+                        a P wave there, and suspected ST elevation in this area."
+                    </p>
+                </div>
+
+                <div class="cnn-step-card" style="--step-color: #f59e0b;">
+                    <div class="cnn-step-num">4</div>
+                    <div class="cnn-step-icon">📉</div>
+                    <h4>Pooling: Simplify</h4>
+                    <p>
+                        To avoid getting overwhelmed by too much data, pooling shrinks the feature maps while keeping
+                        the most important information. Think of it as summarizing a long book into key bullet points.
+                    </p>
+                </div>
+
+                <div class="cnn-step-card" style="--step-color: #10b981;">
+                    <div class="cnn-step-num">5</div>
+                    <div class="cnn-step-icon">🧠</div>
+                    <h4>Fully Connected: Decision Time</h4>
+                    <p>
+                        All the information flows into a regular neural network that weighs all the evidence:
+                        "Given these patterns, irregular R-R intervals, no P waves... what's the diagnosis?"
+                    </p>
+                </div>
+
+                <div class="cnn-step-card" style="--step-color: #ef4444;">
+                    <div class="cnn-step-num">6</div>
+                    <div class="cnn-step-icon">📋</div>
+                    <h4>Output: The Diagnosis</h4>
+                    <p>
+                        The CNN outputs probabilities for each condition: "94% Normal Sinus, 4% AFib, 2% Other."
+                        The highest probability becomes the diagnosis, with the percentage as the confidence score.
+                    </p>
+                </div>
+            </div>
+
+            <div class="analogy-box">
+                <div class="label">💡 Simple Analogy: The CNN is Like a Detective</div>
+                <p>
+                    Imagine a detective examining a crime scene. First, they look for clues (filters scanning).
+                    Then they note where each clue was found (feature maps). They focus on the most important evidence
+                    (pooling).
+                    Finally, they piece it all together to solve the case (fully connected → output).
+                    Our CNN does the same thing with your heart's electrical signals!
                 </p>
             </div>
         </section>
@@ -694,24 +1511,26 @@
                     <div class="training-step">
                         <div class="step-num">3</div>
                         <h4>🧠 Training</h4>
-                        <p>The AI studied these examples millions of times, learning to recognize the unique patterns of
-                            each condition.</p>
+                        <p>The AI studied these examples millions of times, adjusting its internal weights to minimize
+                            errors.</p>
                     </div>
                     <div class="training-step">
                         <div class="step-num">4</div>
                         <h4>✅ Testing</h4>
-                        <p>We tested the AI on ECGs it had never seen before to make sure it could accurately identify
-                            them.</p>
+                        <p>We tested the AI on ECGs it had never seen before to ensure it generalizes well to new
+                            patients.</p>
                     </div>
                 </div>
             </div>
 
             <div class="analogy-box">
-                <div class="label">💡 Simple Analogy</div>
+                <div class="label">💡 How Training Actually Works</div>
                 <p>
-                    Imagine showing a child 100,000 pictures of cats and dogs, telling them which is which.
-                    Eventually, they learn the difference and can identify new animals they've never seen.
-                    Our AI does the same thing with heart rhythms!
+                    The AI makes a guess, checks if it's right, and adjusts. Wrong guess? It tweaks its internal "knobs"
+                    (weights)
+                    to do better next time. After millions of guesses, it becomes incredibly accurate — like a student
+                    who's
+                    done 100,000 practice exams!
                 </p>
             </div>
         </section>
@@ -766,36 +1585,18 @@
                 </div>
 
                 <p style="color: var(--color-text-secondary); margin-top: var(--spacing-lg);">
-                    A score of <span class="highlight-text">94%</span> means the AI is highly confident in its
-                    diagnosis.
-                    This score is calculated based on:
+                    A score of <span class="highlight-text">94%</span> means the AI is highly confident. This comes from
+                    the output layer of the CNN —
+                    if it outputs 0.94 for "Normal Sinus Rhythm," that's a 94% confidence.
                 </p>
 
                 <div class="confidence-factors">
-                    <div class="factor">
-                        <span class="icon">📊</span>
-                        <span>How closely the pattern matches known conditions</span>
+                    <div class="factor"><span class="icon">📊</span><span>How closely patterns match known
+                            conditions</span></div>
+                    <div class="factor"><span class="icon">🔢</span><span>Measurement accuracy (HR, intervals)</span>
                     </div>
-                    <div class="factor">
-                        <span class="icon">🔢</span>
-                        <span>Measurement accuracy (HR, intervals)</span>
-                    </div>
-                    <div class="factor">
-                        <span class="icon">📈</span>
-                        <span>Signal quality of the ECG</span>
-                    </div>
-                    <div class="factor">
-                        <span class="icon">🎯</span>
-                        <span>Consistency across all leads</span>
-                    </div>
-                </div>
-
-                <div class="analogy-box" style="margin-top: var(--spacing-lg);">
-                    <div class="label">💡 Simple Analogy</div>
-                    <p>
-                        It's like a weather forecast saying "90% chance of rain." The AI isn't 100% certain,
-                        but based on everything it sees, it's very confident about its prediction.
-                    </p>
+                    <div class="factor"><span class="icon">📈</span><span>Signal quality of the ECG</span></div>
+                    <div class="factor"><span class="icon">🎯</span><span>Consistency across all leads</span></div>
                 </div>
             </div>
         </section>
@@ -809,9 +1610,7 @@
 
             <div class="conditions-grid">
                 <div class="condition-card normal">
-                    <div class="condition-header">
-                        <span>✅</span> Normal Sinus Rhythm
-                    </div>
+                    <div class="condition-header"><span>✅</span> Normal Sinus Rhythm</div>
                     <div class="condition-body">
                         <p>A healthy, regular heartbeat. Your heart's electrical system is working perfectly.</p>
                         <div class="signs"><strong>Signs:</strong> Regular rhythm, 60-100 BPM, consistent P waves</div>
@@ -819,117 +1618,44 @@
                 </div>
 
                 <div class="condition-card warning">
-                    <div class="condition-header">
-                        <span>⚡</span> Atrial Fibrillation (AFib)
-                    </div>
+                    <div class="condition-header"><span>⚡</span> Atrial Fibrillation (AFib)</div>
                     <div class="condition-body">
-                        <p>An irregular, often rapid heartbeat caused by chaotic electrical signals in the upper heart
-                            chambers.</p>
+                        <p>An irregular, often rapid heartbeat caused by chaotic electrical signals.</p>
                         <div class="signs"><strong>Signs:</strong> Irregular rhythm, no clear P waves, variable heart
                             rate</div>
                     </div>
                 </div>
 
                 <div class="condition-card danger">
-                    <div class="condition-header">
-                        <span>🚨</span> Ventricular Tachycardia
-                    </div>
+                    <div class="condition-header"><span>🚨</span> Ventricular Tachycardia</div>
                     <div class="condition-body">
-                        <p>A serious condition where the heart beats very fast (150+ BPM) due to abnormal electrical
-                            signals.</p>
+                        <p>A serious condition where the heart beats very fast (150+ BPM).</p>
                         <div class="signs"><strong>Signs:</strong> Very fast rate, wide QRS complex, regular rhythm
                         </div>
                     </div>
                 </div>
 
                 <div class="condition-card danger">
-                    <div class="condition-header">
-                        <span>💔</span> STEMI (Heart Attack)
-                    </div>
+                    <div class="condition-header"><span>💔</span> STEMI (Heart Attack)</div>
                     <div class="condition-body">
-                        <p>A serious heart attack where a coronary artery is completely blocked, cutting off blood flow.
-                        </p>
+                        <p>A serious heart attack where a coronary artery is completely blocked.</p>
                         <div class="signs"><strong>Signs:</strong> ST segment elevation, pathological Q waves</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- AI Journey -->
-        <section class="content-section">
-            <div class="section-header">
-                <h2>🔄 Your ECG's Journey Through Our AI</h2>
-                <p>From upload to diagnosis in 4 simple steps</p>
-            </div>
-
-            <div class="ai-journey">
-                <div class="journey-step">
-                    <div class="journey-icon">📤</div>
-                    <div class="journey-content">
-                        <h3>Step 1: You Upload Your ECG</h3>
-                        <p>
-                            Whether it's a photo from your phone or a digital file, our system accepts your ECG image
-                            and prepares it for analysis. The image is cleaned up and standardized so the AI can read it
-                            clearly.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="journey-step">
-                    <div class="journey-icon">🔬</div>
-                    <div class="journey-content">
-                        <h3>Step 2: AI Extracts Features</h3>
-                        <p>
-                            The AI scans every wave and interval in your ECG. It measures heart rate, identifies P
-                            waves,
-                            QRS complexes, and T waves. It calculates precise timings down to the millisecond — things
-                            that would take a human doctor much longer to measure.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="journey-step">
-                    <div class="journey-icon">🧠</div>
-                    <div class="journey-content">
-                        <h3>Step 3: Deep Learning Analysis</h3>
-                        <p>
-                            Your ECG patterns are compared against the thousands of examples the AI learned during
-                            training.
-                            The neural network recognizes familiar patterns and calculates the probability of each
-                            condition.
-                            This is where the "magic" happens!
-                        </p>
-                    </div>
-                </div>
-
-                <div class="journey-step">
-                    <div class="journey-icon">📋</div>
-                    <div class="journey-content">
-                        <h3>Step 4: You Get Results</h3>
-                        <p>
-                            Within seconds, you receive a complete analysis: the diagnosis, confidence score, all
-                            measurements,
-                            and recommendations. The results are presented in an easy-to-understand format with
-                            visualizations.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Technology Note -->
+        <!-- Privacy Note -->
         <section class="content-section">
             <div class="simple-card">
                 <h3>🔒 Privacy & Safety</h3>
                 <p>
                     Your ECG is processed <span class="highlight-text">entirely on your device</span> — we never upload
-                    or store your medical data on any server. The AI runs directly in your web browser, ensuring
-                    complete privacy.
+                    or store your medical data on any server. The AI runs directly in your web browser.
                 </p>
                 <p>
                     <strong>Important:</strong> While our AI is highly accurate, it's designed for educational purposes
-                    and should not replace professional medical advice. Always consult a healthcare provider for
-                    official diagnosis.
+                    and should not replace professional medical advice.
                 </p>
             </div>
         </section>
@@ -937,10 +1663,8 @@
         <!-- CTA Section -->
         <section class="cta-section">
             <h2>Ready to Try It?</h2>
-            <p>Experience AI-powered ECG interpretation for yourself — it's fast, free, and completely private.</p>
-            <a href="index.html" class="cta-btn">
-                <span>🫀</span> Analyze an ECG Now
-            </a>
+            <p>Experience AI-powered ECG interpretation for yourself — fast, free, and private.</p>
+            <a href="index.html" class="cta-btn"><span>🫀</span> Analyze an ECG Now</a>
         </section>
     </main>
 
@@ -953,8 +1677,7 @@
                     <strong>Medical Disclaimer:</strong> CardioAI is intended for educational and demonstration purposes
                     only.
                     This tool should NOT be used for actual medical diagnosis. Always consult qualified healthcare
-                    professionals
-                    for ECG interpretation and cardiac care decisions.
+                    professionals.
                 </p>
             </div>
             <div class="footer-links">
