@@ -20,6 +20,13 @@
     <!-- Page-specific styles -->
     <style>
         /* How It Works Page Styles - Luxury Edition */
+
+        /* Body background using CSS variables for theme support */
+        body {
+            background: var(--color-bg-primary) !important;
+            transition: background 0.4s var(--ease-luxury), color 0.4s var(--ease-luxury);
+        }
+
         .hero-section {
             text-align: center;
             padding: var(--spacing-3xl) 0;
@@ -85,6 +92,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        /* Restore native emoji colors in headings */
+        .section-header h2 span {
+            -webkit-text-fill-color: initial;
+            background: none;
+            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
         }
 
         .section-header p {
@@ -1120,6 +1134,96 @@
                 min-width: 600px;
             }
         }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            margin-left: var(--spacing-md);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--color-accent-gold);
+            box-shadow: var(--shadow-glow-gold);
+            transform: scale(1.05);
+        }
+
+        .theme-icon {
+            position: absolute;
+            transition: all 0.4s var(--ease-luxury);
+        }
+
+        .theme-icon-dark {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+
+        .theme-icon-light {
+            opacity: 0;
+            transform: translateY(20px) rotate(-90deg);
+        }
+
+        /* Light Mode Class-Based Styles */
+        body.light-mode {
+            --color-bg-deepest: #f8fafc;
+            --color-bg-primary: #f1f5f9;
+            --color-bg-secondary: #e2e8f0;
+            --color-bg-tertiary: #cbd5e1;
+            --color-bg-card: rgba(255, 255, 255, 0.9);
+            --color-bg-glass: rgba(255, 255, 255, 0.85);
+            --color-accent-gold: #b8960c;
+            --color-accent-gold-light: #d4af37;
+            --color-accent-gold-dark: #8a7209;
+            --color-text-primary: #0f172a;
+            --color-text-secondary: #475569;
+            --color-text-muted: #64748b;
+            --color-text-gold: #8a7209;
+            --border-color: rgba(184, 150, 12, 0.2);
+            --border-color-hover: rgba(184, 150, 12, 0.4);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 24px 60px rgba(0, 0, 0, 0.15);
+            --shadow-glow-gold: 0 0 40px rgba(184, 150, 12, 0.2);
+        }
+
+        body.light-mode .theme-icon-dark {
+            opacity: 0;
+            transform: translateY(-20px) rotate(90deg);
+        }
+
+        body.light-mode .theme-icon-light {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+
+        body.light-mode .header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-sm);
+        }
+
+        body.light-mode .nn-node.input {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        body.light-mode .nn-node.hidden {
+            background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-gold-dark));
+        }
+
+        body.light-mode .nn-node.output {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
     </style>
 </head>
 
@@ -1140,6 +1244,10 @@
                     <li><a href="#about" class="nav-link">About</a></li>
                 </ul>
             </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+                <span class="theme-icon theme-icon-dark">🌙</span>
+                <span class="theme-icon theme-icon-light">☀️</span>
+            </button>
         </div>
     </header>
 
@@ -1191,7 +1299,9 @@
          ================================================ -->
         <section class="deep-learning-section">
             <div class="section-header">
-                <h2>🧠 Deep Learning: The Brain of Our AI</h2>
+                <h2><span
+                        style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">🧬</span>
+                    Deep Learning: The Brain of Our AI</h2>
                 <p>Understanding how computers learn to "see" like doctors</p>
             </div>
 
@@ -1566,7 +1676,9 @@
         <!-- How AI Learns -->
         <section class="content-section">
             <div class="section-header">
-                <h2>📚 How the AI Learned to Read ECGs</h2>
+                <h2><span
+                        style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">🎓</span>
+                    How the AI Learned to Read ECGs</h2>
                 <p>Training an AI is like teaching a medical student — but much faster</p>
             </div>
 
@@ -1622,7 +1734,9 @@
         <!-- Model Statistics -->
         <section class="content-section">
             <div class="section-header">
-                <h2>📈 AI Performance</h2>
+                <h2><span
+                        style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">📊</span>
+                    AI Performance</h2>
                 <p>The numbers behind our intelligent system</p>
             </div>
 
@@ -1772,6 +1886,50 @@
             <p class="copyright">© 2026 CardioAI. Built with ❤️ for better cardiac care.</p>
         </div>
     </footer>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        (function () {
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+
+            // Check for saved theme preference or default to dark
+            const savedTheme = localStorage.getItem('cardioai-theme');
+
+            // Apply theme based on saved preference (default to dark)
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                body.classList.remove('dark-mode');
+            } else {
+                // Default to dark mode
+                body.classList.add('dark-mode');
+                body.classList.remove('light-mode');
+            }
+
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', function () {
+                const isCurrentlyDark = body.classList.contains('dark-mode');
+
+                if (isCurrentlyDark) {
+                    // Switch to light mode
+                    body.classList.remove('dark-mode');
+                    body.classList.add('light-mode');
+                    localStorage.setItem('cardioai-theme', 'light');
+                } else {
+                    // Switch to dark mode
+                    body.classList.remove('light-mode');
+                    body.classList.add('dark-mode');
+                    localStorage.setItem('cardioai-theme', 'dark');
+                }
+
+                // Add a subtle animation
+                this.style.transform = 'scale(0.9) rotate(180deg)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        })();
+    </script>
 </body>
 
 </html>

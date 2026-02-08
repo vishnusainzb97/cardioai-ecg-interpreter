@@ -2021,3 +2021,48 @@ button:focus-visible,
     background: var(--color-bg-tertiary);
   }
 }
+
+/* =========================================
+   Manual Theme Override Classes
+   These override media queries when set explicitly
+   ========================================= */
+
+/* Force dark mode - overrides prefers-color-scheme: light */
+body.dark-mode {
+  --color-bg-deepest: #060810 !important;
+  --color-bg-primary: #0a0d14 !important;
+  --color-bg-secondary: #0f1318 !important;
+  --color-bg-tertiary: #151a22 !important;
+  --color-bg-card: rgba(18, 22, 30, 0.85) !important;
+  --color-bg-glass: rgba(12, 16, 24, 0.75) !important;
+  --color-accent-gold: #d4af37 !important;
+  --color-accent-gold-light: #e8c967 !important;
+  --color-accent-gold-dark: #a68a2a !important;
+  --color-text-primary: #f8fafc !important;
+  --color-text-secondary: #94a3b8 !important;
+  --color-text-muted: #64748b !important;
+  --color-text-gold: #d4af37 !important;
+  --border-color: rgba(212, 175, 55, 0.12) !important;
+  --border-color-hover: rgba(212, 175, 55, 0.3) !important;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
+  --shadow-glow-gold: 0 0 40px rgba(212, 175, 55, 0.15) !important;
+}
+
+body.dark-mode .header {
+  background: rgba(10, 13, 20, 0.95) !important;
+  box-shadow: var(--shadow-md);
+}
+
+body.dark-mode .nn-node.input {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+}
+
+body.dark-mode .nn-node.hidden {
+  background: linear-gradient(135deg, #d4af37, #a68a2a) !important;
+}
+
+body.dark-mode .nn-node.output {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+}
