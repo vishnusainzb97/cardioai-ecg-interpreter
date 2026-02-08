@@ -7,50 +7,64 @@
     <meta name="description" content="Learn how CardioAI uses advanced AI technology to interpret ECG readings">
     <title>How It Works | CardioAI ECG Interpreter</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Inter + Playfair Display for luxury typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="index.css">
 
     <!-- Page-specific styles -->
     <style>
-        /* How It Works Page Styles */
+        /* How It Works Page Styles - Luxury Edition */
         .hero-section {
             text-align: center;
-            padding: var(--spacing-2xl) 0;
+            padding: var(--spacing-3xl) 0;
             position: relative;
+            animation: fadeInUp 0.8s var(--ease-luxury);
         }
 
         .hero-section h1 {
-            font-size: 3rem;
-            margin-bottom: var(--spacing-md);
-            background: linear-gradient(135deg, var(--color-text-primary), var(--color-accent-primary));
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-lg);
+            background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-accent-gold) 50%, var(--color-text-primary) 100%);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: shimmer 4s linear infinite;
+            letter-spacing: -0.02em;
         }
 
         .hero-section .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: var(--color-text-secondary);
-            max-width: 700px;
-            margin: 0 auto var(--spacing-lg);
-            line-height: 1.7;
+            max-width: 750px;
+            margin: 0 auto var(--spacing-xl);
+            line-height: 1.8;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-sm);
-            padding: var(--spacing-sm) var(--spacing-lg);
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid var(--color-accent-primary);
-            border-radius: 50px;
-            color: var(--color-accent-primary);
+            padding: var(--spacing-sm) var(--spacing-xl);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+            border: 1px solid var(--color-accent-gold);
+            border-radius: 100px;
+            color: var(--color-accent-gold);
             font-weight: 600;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+            transition: all var(--transition-normal);
+        }
+
+        .hero-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.25);
         }
 
         /* Section Styles */
@@ -60,43 +74,62 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
         }
 
         .section-header h2 {
-            font-size: 2rem;
-            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-display);
+            font-size: 2.25rem;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-text-primary), var(--color-accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .section-header p {
             color: var(--color-text-secondary);
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.7;
         }
 
-        /* Simple Explanation Cards */
+        /* Simple Explanation Cards - Enhanced for Readability */
         .simple-card {
             background: var(--color-bg-card);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius-xl);
-            padding: var(--spacing-xl);
+            padding: var(--spacing-2xl);
             margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-md), var(--shadow-inner-glow);
+            transition: all var(--transition-slow);
+            animation: cascadeIn 0.6s var(--ease-luxury) backwards;
+        }
+
+        .simple-card:hover {
+            border-color: var(--border-color-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow-gold);
         }
 
         .simple-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: var(--spacing-md);
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            margin-bottom: var(--spacing-lg);
             display: flex;
             align-items: center;
             gap: var(--spacing-sm);
+            color: var(--color-text-primary);
         }
 
         .simple-card p {
             color: var(--color-text-secondary);
-            line-height: 1.8;
-            font-size: 1.05rem;
-            margin-bottom: var(--spacing-md);
+            line-height: 2;
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-lg);
         }
 
         .simple-card p:last-child {
@@ -104,53 +137,75 @@
         }
 
         .highlight-text {
-            color: var(--color-accent-primary);
+            color: var(--color-accent-gold);
             font-weight: 600;
         }
 
-        /* Analogy Box */
+        /* Analogy Box - Luxury Gold Accent */
         .analogy-box {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
-            border-left: 4px solid var(--color-accent-primary);
-            padding: var(--spacing-lg);
-            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
-            margin: var(--spacing-lg) 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(196, 164, 132, 0.05));
+            border-left: 4px solid var(--color-accent-gold);
+            padding: var(--spacing-xl);
+            border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;
+            margin: var(--spacing-xl) 0;
+            transition: all var(--transition-normal);
+        }
+
+        .analogy-box:hover {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.12), rgba(196, 164, 132, 0.08));
+            transform: translateX(4px);
         }
 
         .analogy-box .label {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--color-accent-primary);
+            letter-spacing: 1.5px;
+            color: var(--color-accent-gold);
             margin-bottom: var(--spacing-sm);
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .analogy-box p {
             color: var(--color-text-primary) !important;
             font-style: italic;
+            line-height: 1.9;
+            font-size: 1.05rem;
         }
 
         /* ================================================
-       DEEP LEARNING SECTION - NEW DETAILED CONTENT
+       DEEP LEARNING SECTION - Luxury Design
        ================================================ */
 
         .deep-learning-section {
-            background: var(--color-bg-secondary);
+            background: linear-gradient(180deg, var(--color-bg-secondary), var(--color-bg-tertiary));
             margin: var(--spacing-2xl) calc(-1 * var(--spacing-xl));
-            padding: var(--spacing-2xl) var(--spacing-xl);
+            padding: var(--spacing-3xl) var(--spacing-xl);
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .deep-learning-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-accent-gold), transparent);
+            opacity: 0.5;
         }
 
         /* Neural Network Visualization */
         .neural-network-visual {
             background: var(--color-bg-card);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius-xl);
-            padding: var(--spacing-xl);
+            padding: var(--spacing-2xl);
             margin: var(--spacing-xl) 0;
             overflow: hidden;
+            box-shadow: var(--shadow-lg);
         }
 
         .nn-diagram {
@@ -184,29 +239,30 @@
         }
 
         .nn-node {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             animation: pulse-node 2s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .nn-node.input {
-            background: var(--color-info);
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
             color: white;
         }
 
         .nn-node.hidden {
-            background: var(--color-warning);
-            color: white;
+            background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-gold-dark));
+            color: var(--color-bg-deepest);
         }
 
         .nn-node.output {
-            background: var(--color-success);
+            background: linear-gradient(135deg, #4ade80, #22c55e);
             color: white;
         }
 
@@ -248,10 +304,11 @@
 
         .nn-connection {
             width: 60px;
-            height: 2px;
-            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-info));
-            opacity: 0.5;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-accent-gold), #60a5fa);
+            opacity: 0.6;
             animation: flow-connection 1.5s ease-in-out infinite;
+            border-radius: 2px;
         }
 
         .nn-connection:nth-child(odd) {
@@ -288,28 +345,28 @@
         }
 
         .neuron-circle {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto var(--spacing-md);
+            width: 130px;
+            height: 130px;
+            margin: 0 auto var(--spacing-lg);
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-info));
+            background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-rose));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            box-shadow: 0 0 40px var(--color-accent-glow);
-            animation: glow-pulse 3s ease-in-out infinite;
+            font-size: 3.5rem;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.4);
+            animation: glow-pulse-gold 3s ease-in-out infinite;
         }
 
-        @keyframes glow-pulse {
+        @keyframes glow-pulse-gold {
 
             0%,
             100% {
-                box-shadow: 0 0 20px var(--color-accent-glow);
+                box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
             }
 
             50% {
-                box-shadow: 0 0 60px var(--color-accent-glow), 0 0 80px rgba(16, 185, 129, 0.2);
+                box-shadow: 0 0 70px rgba(212, 175, 55, 0.5), 0 0 90px rgba(212, 175, 55, 0.2);
             }
         }
 
@@ -330,7 +387,7 @@
 
         .neuron-input-arrow .arrow {
             font-size: 1.2rem;
-            color: var(--color-accent-primary);
+            color: var(--color-accent-gold);
             animation: bounce-arrow 1s ease-in-out infinite;
         }
 
@@ -371,12 +428,12 @@
         }
 
         .cnn-stage-label {
-            font-size: 0.7rem;
-            color: var(--color-accent-primary);
+            font-size: 0.75rem;
+            color: var(--color-accent-gold);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: var(--spacing-sm);
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .cnn-stage-box {
@@ -388,8 +445,8 @@
         }
 
         .cnn-stage:hover .cnn-stage-box {
-            border-color: var(--color-accent-primary);
-            box-shadow: 0 0 20px var(--color-accent-glow);
+            border-color: var(--color-accent-gold);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
         }
 
         .cnn-stage-name {
@@ -413,8 +470,8 @@
             bottom: 50%;
             left: 0;
             width: 200%;
-            height: 2px;
-            background: var(--color-accent-primary);
+            height: 3px;
+            background: var(--color-accent-gold);
             animation: ecg-scroll 2s linear infinite;
         }
 
@@ -426,12 +483,12 @@
             background: linear-gradient(90deg,
                     transparent 0%,
                     transparent 10%,
-                    var(--color-accent-primary) 10%,
-                    var(--color-accent-primary) 12%,
+                    var(--color-accent-gold) 10%,
+                    var(--color-accent-gold) 12%,
                     transparent 12%,
                     transparent 15%,
-                    var(--color-accent-primary) 15%,
-                    var(--color-accent-primary) 16%,
+                    var(--color-accent-gold) 15%,
+                    var(--color-accent-gold) 16%,
                     transparent 16%,
                     transparent 20%);
             background-size: 50px 100%;
@@ -459,8 +516,8 @@
         }
 
         .filter-cell {
-            background: var(--color-accent-primary);
-            border-radius: 2px;
+            background: var(--color-accent-gold);
+            border-radius: 3px;
             animation: filter-pulse 1.5s ease-in-out infinite;
         }
 
@@ -530,7 +587,7 @@
         .feature-map {
             width: 35px;
             height: 45px;
-            background: linear-gradient(180deg, var(--color-info), var(--color-accent-primary));
+            background: linear-gradient(180deg, #60a5fa, var(--color-accent-gold));
             border-radius: 4px;
             opacity: 0.8;
             animation: feature-fade 2s ease-in-out infinite;
@@ -670,8 +727,8 @@
 
         /* CNN Arrow */
         .cnn-arrow {
-            font-size: 1.5rem;
-            color: var(--color-accent-primary);
+            font-size: 1.75rem;
+            color: var(--color-accent-gold);
             animation: arrow-pulse 1s ease-in-out infinite;
             flex-shrink: 0;
         }
@@ -715,29 +772,30 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: var(--step-color, var(--color-accent-primary));
+            background: var(--step-color, var(--color-accent-gold));
         }
 
         .cnn-step-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
-            border-color: var(--step-color, var(--color-accent-primary));
+            border-color: var(--step-color, var(--color-accent-gold));
         }
 
         .cnn-step-num {
             position: absolute;
             top: var(--spacing-md);
             right: var(--spacing-md);
-            width: 32px;
-            height: 32px;
-            background: var(--step-color, var(--color-accent-primary));
-            color: white;
+            width: 36px;
+            height: 36px;
+            background: var(--step-color, var(--color-accent-gold));
+            color: var(--color-bg-deepest);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .cnn-step-icon {
@@ -781,13 +839,13 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-info));
+            background: linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-rose));
         }
 
         .model-stat .value {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+            background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-gold-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -795,8 +853,8 @@
 
         .model-stat .label {
             color: var(--color-text-secondary);
-            font-size: 0.9rem;
-            margin-top: var(--spacing-xs);
+            font-size: 0.95rem;
+            margin-top: var(--spacing-sm);
         }
 
         /* Training Process */
@@ -828,26 +886,29 @@
         }
 
         .training-step .step-num {
-            width: 40px;
-            height: 40px;
-            background: var(--color-accent-primary);
-            color: var(--color-bg-primary);
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-gold-dark));
+            color: var(--color-bg-deepest);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             margin: 0 auto var(--spacing-md);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
 
         .training-step h4 {
             margin-bottom: var(--spacing-sm);
+            font-family: var(--font-display);
+            font-size: 1.1rem;
         }
 
         .training-step p {
             color: var(--color-text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
+            line-height: 1.7;
         }
 
         /* Confidence Score Explanation */
@@ -871,10 +932,10 @@
         .confidence-fill {
             height: 100%;
             background: linear-gradient(90deg,
-                    var(--color-danger) 0%,
-                    var(--color-warning) 40%,
-                    var(--color-success) 70%,
-                    var(--color-accent-primary) 100%);
+                    #ef4444 0%,
+                    #f59e0b 40%,
+                    #22c55e 70%,
+                    var(--color-accent-gold) 100%);
             border-radius: 15px;
             width: 94%;
             animation: fillConfidence 2s ease-out forwards;
@@ -985,41 +1046,64 @@
         /* CTA Section */
         .cta-section {
             text-align: center;
-            padding: var(--spacing-2xl);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
-            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-3xl);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(196, 164, 132, 0.04));
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-2xl);
             margin-top: var(--spacing-2xl);
+            box-shadow: var(--shadow-lg);
         }
 
         .cta-section h2 {
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            font-family: var(--font-display);
         }
 
         .cta-section p {
             color: var(--color-text-secondary);
-            margin-bottom: var(--spacing-lg);
-            max-width: 500px;
+            margin-bottom: var(--spacing-xl);
+            max-width: 550px;
             margin-left: auto;
             margin-right: auto;
+            font-size: 1.1rem;
+            line-height: 1.7;
         }
 
         .cta-btn {
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-sm);
-            padding: var(--spacing-md) var(--spacing-xl);
-            background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
-            color: var(--color-bg-primary);
+            padding: var(--spacing-md) var(--spacing-2xl);
+            background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-gold-dark));
+            color: var(--color-bg-deepest);
             text-decoration: none;
-            border-radius: var(--border-radius-md);
-            font-weight: 600;
+            border-radius: 100px;
+            font-weight: 700;
             font-size: 1.1rem;
             transition: all var(--transition-normal);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.6s var(--ease-luxury);
         }
 
         .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 35px rgba(212, 175, 55, 0.45), 0 0 50px rgba(212, 175, 55, 0.2);
+        }
+
+        .cta-btn:hover::before {
+            left: 100%;
         }
 
         /* Responsive */
@@ -1046,12 +1130,12 @@
             <a href="index.html" class="logo">
                 <div class="logo-icon">🫀</div>
                 <span class="logo-text">CardioAI</span>
-                <span class="logo-badge">MVP</span>
+                <span class="logo-badge">PRO</span>
             </a>
             <nav>
                 <ul class="nav-links">
                     <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="how-it-works.html" class="nav-link" style="color: var(--color-accent-primary);">How It
+                    <li><a href="how-it-works.html" class="nav-link" style="color: var(--color-accent-gold);">How It
                             Works</a></li>
                     <li><a href="#about" class="nav-link">About</a></li>
                 </ul>
