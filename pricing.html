@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CardioAI pricing plans for clinics and hospitals in India.">
+    <title>Pricing | CardioAI ECG Interpreter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <!-- Header (Standard) -->
+    <header class="header" id="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon heartbeat">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
+                    </svg>
+                </div>
+                <span class="logo-text">CardioAI</span>
+            </a>
+
+            <nav class="nav-desktop" id="nav-desktop">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="index.html#features" class="nav-link">Features</a></li>
+                    <li><a href="how-it-works.html" class="nav-link">How It Works</a></li>
+                    <li><a href="architecture.html" class="nav-link">Behind the Technology</a></li>
+                    <li><a href="pricing.html" class="nav-link active">Pricing</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="index.html#upload-section" class="btn btn-primary btn-sm">Try Demo</a>
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav -->
+        <nav class="nav-mobile" id="nav-mobile">
+            <ul class="nav-links-mobile">
+                <li><a href="index.html" class="nav-link-mobile">Home</a></li>
+                <li><a href="index.html#features" class="nav-link-mobile">Features</a></li>
+                <li><a href="how-it-works.html" class="nav-link-mobile">How It Works</a></li>
+                <li><a href="architecture.html" class="nav-link-mobile">Behind the Technology</a></li>
+                <li><a href="pricing.html" class="nav-link-mobile active">Pricing</a></li>
+                <li><a href="index.html#upload-section" class="nav-link-mobile cta">Try Demo →</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="pricing-page">
+        <div class="container">
+            <!-- Hero -->
+            <div class="pricing-hero">
+                <span class="ph-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                    Pricing
+                </span>
+                <h1 class="hero-title" style="font-size: 3.5rem; margin-bottom: var(--spacing-md);">Simple, Transparent
+                    Pricing<br>for Every Clinic</h1>
+                <p class="section-desc" style="max-width: 600px; margin: 0 auto;">Start free. Scale as you grow. No
+                    hidden fees, no long-term contracts, and zero server costs because the AI runs in your browser.</p>
+            </div>
+
+            <!-- Pricing Grid -->
+            <div class="pricing-grid">
+                <!-- Free -->
+                <div class="pricing-card">
+                    <div class="pc-name">Community</div>
+                    <div class="pc-price">
+                        <span class="amount">Free</span>
+                        <span class="period">forever</span>
+                    </div>
+                    <p class="pc-desc">For doctors who want to try CardioAI or use it occasionally. No sign-up required.
+                    </p>
+                    <ul class="pc-features">
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> 5 ECG analyses per month</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Basic condition detection (15 classes)</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Confidence score per result</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> 100% browser-based & private</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Works on phone, tablet, or laptop</li>
+                    </ul>
+                    <a href="index.html#upload-section" class="pc-btn pc-btn-outline">Try Free</a>
+                </div>
+
+                <!-- Clinic Pro -->
+                <div class="pricing-card featured">
+                    <div class="pc-name">Clinic Pro</div>
+                    <div class="pc-price">
+                        <span class="amount">₹1,999</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <p class="pc-desc">For private clinics and solo practitioners who need unlimited daily ECG analysis.
+                    </p>
+                    <ul class="pc-features">
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> <strong>Unlimited</strong> ECG analyses</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Detailed PDF reports with findings</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Risk severity classification</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Priority email support</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Offline mode (after first load)</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Annual plan: ₹19,999/year (save 17%)</li>
+                    </ul>
+                    <a href="index.html#upload-section" class="pc-btn pc-btn-primary">Start 14-Day Free Trial</a>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="pricing-card">
+                    <div class="pc-name">Hospital Enterprise</div>
+                    <div class="pc-price">
+                        <span class="amount">Custom</span>
+                    </div>
+                    <p class="pc-desc">For hospitals, diagnostic chains, and healthcare networks.</p>
+                    <ul class="pc-features">
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Everything in Clinic Pro</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Multi-user dashboard (up to 50 seats)</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> API integration with hospital EMR</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> White-label branding option</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> Dedicated account manager & SLA</li>
+                        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg> On-premise deployment available</li>
+                    </ul>
+                    <a href="mailto:contact@cardioai.in" class="pc-btn pc-btn-outline">Contact Sales</a>
+                </div>
+            </div>
+
+            <!-- Competitor Comparison -->
+            <section class="pricing-section">
+                <div class="section-header">
+                    <h2 class="section-title">How We Compare</h2>
+                    <p class="section-desc">CardioAI vs. other AI ECG solutions available in the Indian market.</p>
+                </div>
+                <div class="comp-table-wrapper">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Tricog InstaECG</th>
+                                <th>AliveCor Kardia</th>
+                                <th>PMcardio</th>
+                                <th class="highlight-col">CardioAI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Upfront device cost</strong></td>
+                                <td>₹49,900 – ₹75,000</td>
+                                <td>₹25,000 – ₹1,50,000</td>
+                                <td>None (app-based)</td>
+                                <td class="highlight-col">None (browser-based)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Monthly fee</strong></td>
+                                <td>Subscription (undisclosed)</td>
+                                <td>₹8,300/yr (KardiaCare)</td>
+                                <td>~₹2,330/mo</td>
+                                <td class="highlight-col">Free – ₹1,999/mo</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Internet required</strong></td>
+                                <td>Yes (cloud analysis)</td>
+                                <td>Yes (cloud sync)</td>
+                                <td>Yes (cloud AI)</td>
+                                <td class="highlight-col">Only once (then offline)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Data privacy</strong></td>
+                                <td>Data sent to servers</td>
+                                <td>Data sent to servers</td>
+                                <td>Data sent to servers</td>
+                                <td class="highlight-col">Never leaves your device</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hardware needed</strong></td>
+                                <td>Proprietary ECG device</td>
+                                <td>Kardia device</td>
+                                <td>Smartphone camera</td>
+                                <td class="highlight-col">Any device with browser</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Setup time</strong></td>
+                                <td>Hardware delivery + training</td>
+                                <td>Device delivery</td>
+                                <td>App install</td>
+                                <td class="highlight-col">Zero — open in browser</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CDSCO approved</strong></td>
+                                <td>Yes</td>
+                                <td>Yes (July 2025)</td>
+                                <td>CE marked</td>
+                                <td class="highlight-col">In progress (research tool)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p
+                    style="font-size:0.75rem; color:var(--color-text-muted); text-align:center; margin-top:var(--spacing-md)">
+                    Competitor pricing sourced from public listings (IndiaMART, official websites) as of Feb 2025.
+                    Actual prices may vary.
+                </p>
+            </section>
+
+            <!-- Financial Model -->
+            <section class="pricing-section">
+                <div class="section-header">
+                    <h2 class="section-title">Financial Model — India Market</h2>
+                    <p class="section-desc">A transparent look at the numbers behind CardioAI's business model.</p>
+                </div>
+
+                <div class="market-bar">
+                    <div class="market-stat">
+                        <div class="ms-num">$1.6B</div>
+                        <div class="ms-label">India AI Healthcare Market (2025)</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="ms-num">61M+</div>
+                        <div class="ms-label">Indians with Heart Conditions</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="ms-num">1,50,000+</div>
+                        <div class="ms-label">Private Clinics in India</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="ms-num">~4,000</div>
+                        <div class="ms-label">Practicing Cardiologists</div>
+                    </div>
+                </div>
+
+                <div class="fm-grid">
+                    <div class="fm-card">
+                        <div class="fm-num">~₹0</div>
+                        <div class="fm-label">Marginal Cost per ECG</div>
+                        <div class="fm-desc">AI runs in the user's browser. No cloud server costs. A truly
+                            zero-marginal-cost product.</div>
+                    </div>
+                    <div class="fm-card">
+                        <div class="fm-num">92%+</div>
+                        <div class="fm-label">Target Gross Margin</div>
+                        <div class="fm-desc">Only costs are hosting and support. No infrastructure that scales with
+                            usage.</div>
+                    </div>
+                    <div class="fm-card">
+                        <div class="fm-num">₹67/day</div>
+                        <div class="fm-label">Clinic Pro Cost</div>
+                        <div class="fm-desc">At ₹1,999/month, it's cheaper than two cups of coffee a day. Easy ROI.
+                        </div>
+                    </div>
+                    <div class="fm-card">
+                        <div class="fm-num">14x</div>
+                        <div class="fm-label">ROI for Clinics</div>
+                        <div class="fm-desc">A single prevented misdiagnosis or timely referral pays for the
+                            subscription.</div>
+                    </div>
+                </div>
+
+                <!-- Revenue Projections -->
+                <div class="rev-projection">
+                    <h3
+                        style="font-size:1rem;font-weight:700;margin-bottom:var(--spacing-lg);display:flex;align-items:center;gap:8px">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10" />
+                            <line x1="12" y1="20" x2="12" y2="4" />
+                            <line x1="6" y1="20" x2="6" y2="14" />
+                        </svg>
+                        Revenue Projection — 5-Year Outlook
+                    </h3>
+                    <table class="rev-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Year 1</th>
+                                <th>Year 2</th>
+                                <th>Year 3</th>
+                                <th>Year 4</th>
+                                <th>Year 5</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Free users</td>
+                                <td>5,000</td>
+                                <td>25,000</td>
+                                <td>75,000</td>
+                                <td>1,50,000</td>
+                                <td>3,00,000</td>
+                            </tr>
+                            <tr>
+                                <td>Clinic Pro subscriptions</td>
+                                <td>200</td>
+                                <td>1,500</td>
+                                <td>5,000</td>
+                                <td>10,000</td>
+                                <td>18,000</td>
+                            </tr>
+                            <tr>
+                                <td>Enterprise contracts</td>
+                                <td>2</td>
+                                <td>10</td>
+                                <td>30</td>
+                                <td>60</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>Clinic Pro ARR</td>
+                                <td>₹48L</td>
+                                <td>₹3.6Cr</td>
+                                <td>₹12Cr</td>
+                                <td>₹24Cr</td>
+                                <td>₹43.2Cr</td>
+                            </tr>
+                            <tr>
+                                <td>Enterprise ARR</td>
+                                <td>₹10L</td>
+                                <td>₹50L</td>
+                                <td>₹1.5Cr</td>
+                                <td>₹3Cr</td>
+                                <td>₹5Cr</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td>Total ARR</td>
+                                <td>₹58L</td>
+                                <td>₹4.1Cr</td>
+                                <td>₹13.5Cr</td>
+                                <td>₹27Cr</td>
+                                <td>₹48.2Cr</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Pricing FAQ -->
+            <section class="pricing-section">
+                <div class="section-header">
+                    <h2 class="section-title">Pricing FAQ</h2>
+                    <p class="section-desc">Quick answers about payments, trials, and plan changes.</p>
+                </div>
+                <div style="max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:var(--spacing-lg)">
+                    <!-- FAQ Items (using index.css h3/p styles implicitly or explicit overrides) -->
+                    <div>
+                        <h3 style="font-size:1.1rem;margin-bottom:var(--spacing-xs)">Is there really a free plan?</h3>
+                        <p>Yes. The free tier gives you 5 ECG analyses per month, forever. No credit card required.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:1.1rem;margin-bottom:var(--spacing-xs)">Can I cancel anytime?</h3>
+                        <p>Absolutely. No lock-in contracts. Cancel anytime and your plan reverts to free.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:1.1rem;margin-bottom:var(--spacing-xs)">What payment methods?</h3>
+                        <p>We accept UPI, debit/credit cards, and net banking. Enterprise clients can pay via bank
+                            transfer.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:1.1rem;margin-bottom:var(--spacing-xs)">Is GST included?</h3>
+                        <p>Prices are exclusive of 18% GST. Full GST invoices are provided.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Final CTA -->
+            <div style="text-align:center; padding: var(--spacing-4xl) 0;">
+                <h2
+                    style="font-size:2rem; font-weight:800; margin-bottom:var(--spacing-md); color:var(--color-text-primary);">
+                    Ready to Transform Your Workflow?</h2>
+                <p style="color:var(--color-text-secondary); margin-bottom:var(--spacing-xl);">Start with 5 free
+                    analyses today. No download, no sign-up.</p>
+                <a href="index.html#upload-section" class="btn btn-primary btn-lg">Try CardioAI Free</a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer (Standard) -->
+    <footer class="site-footer"
+        style="padding: var(--spacing-3xl) 0; border-top: 1px solid var(--border-color); margin-top: var(--spacing-4xl);">
+        <div class="container">
+            <div style="display:grid; grid-template-columns: 1fr 2fr; gap: var(--spacing-2xl);">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-text">CardioAI</span>
+                    </a>
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: var(--color-text-secondary);">
+                        AI-powered ECG interpretation that runs entirely in your browser.
+                    </p>
+                </div>
+                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg);">
+                    <div>
+                        <h4 style="margin-bottom: var(--spacing-md);">Product</h4>
+                        <ul style="list-style:none;">
+                            <li><a href="index.html#features"
+                                    style="color:var(--color-text-secondary); text-decoration:none;">Features</a></li>
+                            <li><a href="pricing.html"
+                                    style="color:var(--color-text-secondary); text-decoration:none;">Pricing</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--spacing-md);">Resources</h4>
+                        <ul style="list-style:none;">
+                            <li><a href="architecture.html"
+                                    style="color:var(--color-text-secondary); text-decoration:none;">Technology</a></li>
+                            <li><a href="how-it-works.html"
+                                    style="color:var(--color-text-secondary); text-decoration:none;">How It Works</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--spacing-md);">Legal</h4>
+                        <ul style="list-style:none;">
+                            <li><a href="#" style="color:var(--color-text-secondary); text-decoration:none;">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom"
+                style="margin-top: var(--spacing-xl); padding-top: var(--spacing-lg); border-top: 1px solid var(--border-color); text-align: center; font-size: 0.8rem; color: var(--color-text-muted);">
+                <p>&copy; 2025 CardioAI. For research use only.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,2391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Understand how CardioAI uses Deep Learning and CNNs to read ECGs — explained simply for everyone.">
+    <title>Behind the Technology | CardioAI ECG Interpreter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .btt-page {
+            padding-top: 100px
+        }
+
+        .btt-hero {
+            text-align: center;
+            padding: var(--spacing-lg) 0 var(--spacing-xl);
+            animation: bttUp .8s ease both
+        }
+
+        .btt-hero h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: -.03em;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .btt-hero .btt-sub {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+            max-width: 660px;
+            margin: 0 auto;
+            line-height: 1.75
+        }
+
+        .btt-section {
+            padding: var(--spacing-3xl) 0;
+            border-top: 1px solid var(--border-color)
+        }
+
+        .btt-section:first-of-type {
+            border-top: none
+        }
+
+        .btt-sh {
+            margin-bottom: var(--spacing-2xl);
+            max-width: 740px
+        }
+
+        .btt-sh.centered {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .btt-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm)
+        }
+
+        .btt-sh h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -.02em;
+            margin-bottom: var(--spacing-md)
+        }
+
+        .btt-sh p {
+            font-size: 1.0625rem;
+            color: var(--color-text-secondary);
+            line-height: 1.75
+        }
+
+        .arow {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: start
+        }
+
+        .acard {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-xl);
+            transition: all var(--transition-base)
+        }
+
+        .acard:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg)
+        }
+
+        .acard-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--color-primary-subtle);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md)
+        }
+
+        .acard h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm)
+        }
+
+        .acard p,
+        .acard li {
+            font-size: .9375rem;
+            line-height: 1.75;
+            color: var(--color-text-secondary)
+        }
+
+        .acard ul {
+            list-style: none;
+            padding: 0;
+            margin: var(--spacing-md) 0 0
+        }
+
+        .acard li {
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 8px
+        }
+
+        .acard li:last-child {
+            border-bottom: none
+        }
+
+        .ahigh {
+            display: block;
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: rgba(59, 130, 246, .06);
+            border-left: 3px solid var(--color-primary);
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+            font-size: .875rem;
+            color: var(--color-text-secondary);
+            line-height: 1.65;
+            font-style: italic
+        }
+
+        /* Neural Net Diagram */
+        .nn-box {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-2xl) var(--spacing-xl);
+            margin: var(--spacing-xl) 0;
+            text-align: center;
+            overflow: hidden
+        }
+
+        .nn-box h3 {
+            font-size: .75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-lg)
+        }
+
+        .nn-dia {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            padding: var(--spacing-lg) 0;
+            flex-wrap: wrap
+        }
+
+        .nn-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm)
+        }
+
+        .nn-lbl {
+            font-size: .6875rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--color-text-muted);
+            font-weight: 600;
+            margin-bottom: 4px
+        }
+
+        .nn-nodes {
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .nn-nd {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            animation: ndPulse 2s ease-in-out infinite
+        }
+
+        .nn-nd.inp {
+            background: linear-gradient(135deg, #3b82f6, #6366f1)
+        }
+
+        .nn-nd.hid {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7)
+        }
+
+        .nn-nd.out {
+            background: linear-gradient(135deg, #10b981, #14b8a6)
+        }
+
+        .nn-nd:nth-child(1) {
+            animation-delay: 0s
+        }
+
+        .nn-nd:nth-child(2) {
+            animation-delay: .15s
+        }
+
+        .nn-nd:nth-child(3) {
+            animation-delay: .3s
+        }
+
+        .nn-nd:nth-child(4) {
+            animation-delay: .45s
+        }
+
+        .nn-nd:nth-child(5) {
+            animation-delay: .6s
+        }
+
+        .nn-conn {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+            opacity: .4;
+            position: relative
+        }
+
+        .nn-conn::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 20px;
+            height: 6px;
+            background: var(--color-primary);
+            border-radius: 3px;
+            animation: dataFlow 1.5s ease-in-out infinite;
+            opacity: .8
+        }
+
+        @keyframes dataFlow {
+            0% {
+                left: 0;
+                opacity: 0
+            }
+
+            20% {
+                opacity: .8
+            }
+
+            80% {
+                opacity: .8
+            }
+
+            100% {
+                left: calc(100% - 20px);
+                opacity: 0
+            }
+        }
+
+        @keyframes ndPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(59, 130, 246, 0)
+            }
+
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 0 12px rgba(59, 130, 246, .3)
+            }
+        }
+
+        /* Learning Steps */
+        .lsteps {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl)
+        }
+
+        .lstep {
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: var(--spacing-lg);
+            align-items: start
+        }
+
+        .lstep-num {
+            width: 56px;
+            height: 56px;
+            background: var(--color-primary-subtle);
+            border: 2px solid var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            flex-shrink: 0
+        }
+
+        .lstep-body {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-xl);
+            transition: all var(--transition-base)
+        }
+
+        .lstep-body:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md)
+        }
+
+        .lstep-body h3 {
+            font-size: 1.0625rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm)
+        }
+
+        .lstep-body p {
+            font-size: .9375rem;
+            line-height: 1.75;
+            color: var(--color-text-secondary)
+        }
+
+        /* CNN Pipeline */
+        .cnn-pipe {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0
+        }
+
+        .cnn-st {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-xl);
+            text-align: center;
+            position: relative;
+            transition: all var(--transition-base)
+        }
+
+        .cnn-st:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg)
+        }
+
+        .cnn-st-n {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .6875rem;
+            font-weight: 700
+        }
+
+        .cnn-st-vis {
+            width: 80px;
+            height: 80px;
+            margin: var(--spacing-md) auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .cnn-st h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs)
+        }
+
+        .cnn-st p {
+            font-size: .8125rem;
+            line-height: 1.6;
+            color: var(--color-text-muted)
+        }
+
+        /* Filter grid animation */
+        .fgrid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 3px;
+            width: 80px;
+            height: 80px
+        }
+
+        .fcell {
+            background: var(--color-primary);
+            border-radius: 2px;
+            opacity: .15;
+            animation: fScan 2.5s ease-in-out infinite
+        }
+
+        .fcell:nth-child(1) {
+            animation-delay: 0s
+        }
+
+        .fcell:nth-child(2) {
+            animation-delay: .08s
+        }
+
+        .fcell:nth-child(3) {
+            animation-delay: .16s
+        }
+
+        .fcell:nth-child(4) {
+            animation-delay: .24s
+        }
+
+        .fcell:nth-child(5) {
+            animation-delay: .32s
+        }
+
+        .fcell:nth-child(6) {
+            animation-delay: .1s
+        }
+
+        .fcell:nth-child(7) {
+            animation-delay: .18s
+        }
+
+        .fcell:nth-child(8) {
+            animation-delay: .26s
+        }
+
+        .fcell:nth-child(9) {
+            animation-delay: .34s
+        }
+
+        .fcell:nth-child(10) {
+            animation-delay: .42s
+        }
+
+        .fcell:nth-child(11) {
+            animation-delay: .2s
+        }
+
+        .fcell:nth-child(12) {
+            animation-delay: .28s
+        }
+
+        .fcell:nth-child(13) {
+            animation-delay: .36s
+        }
+
+        .fcell:nth-child(14) {
+            animation-delay: .44s
+        }
+
+        .fcell:nth-child(15) {
+            animation-delay: .52s
+        }
+
+        .fcell:nth-child(16) {
+            animation-delay: .3s
+        }
+
+        .fcell:nth-child(17) {
+            animation-delay: .38s
+        }
+
+        .fcell:nth-child(18) {
+            animation-delay: .46s
+        }
+
+        .fcell:nth-child(19) {
+            animation-delay: .54s
+        }
+
+        .fcell:nth-child(20) {
+            animation-delay: .62s
+        }
+
+        .fcell:nth-child(21) {
+            animation-delay: .4s
+        }
+
+        .fcell:nth-child(22) {
+            animation-delay: .48s
+        }
+
+        .fcell:nth-child(23) {
+            animation-delay: .56s
+        }
+
+        .fcell:nth-child(24) {
+            animation-delay: .64s
+        }
+
+        .fcell:nth-child(25) {
+            animation-delay: .72s
+        }
+
+        @keyframes fScan {
+
+            0%,
+            100% {
+                opacity: .15;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .9;
+                transform: scale(1.1)
+            }
+        }
+
+        /* Wave animation */
+        .wave-sc {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .wave-sc svg {
+            width: 100%;
+            height: 40px;
+            overflow: visible
+        }
+
+        .wave-sc svg polyline {
+            fill: none;
+            stroke: var(--color-primary);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-dasharray: 120;
+            stroke-dashoffset: 120;
+            animation: drawW 2s ease-in-out infinite
+        }
+
+        @keyframes drawW {
+            0% {
+                stroke-dashoffset: 120;
+                opacity: .3
+            }
+
+            50% {
+                stroke-dashoffset: 0;
+                opacity: 1
+            }
+
+            100% {
+                stroke-dashoffset: -120;
+                opacity: .3
+            }
+        }
+
+        /* Pool visual */
+        .pool-v {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .pool-sq {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+            animation: pShrink 2s ease-in-out infinite
+        }
+
+        .psq {
+            width: 24px;
+            height: 24px;
+            background: var(--color-primary);
+            border-radius: 4px;
+            opacity: .6
+        }
+
+        .psq:nth-child(1) {
+            opacity: 1
+        }
+
+        @keyframes pShrink {
+
+            0%,
+            100% {
+                transform: scale(1);
+                gap: 4px
+            }
+
+            50% {
+                transform: scale(.8);
+                gap: 8px
+            }
+        }
+
+        /* Decision bars */
+        .dec-v {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .dec-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 60px
+        }
+
+        .dbar {
+            width: 14px;
+            border-radius: 4px 4px 0 0;
+            animation: bGrow 2s ease-in-out infinite
+        }
+
+        .dbar:nth-child(1) {
+            height: 75%;
+            background: #10b981;
+            animation-delay: 0s
+        }
+
+        .dbar:nth-child(2) {
+            height: 30%;
+            background: rgba(59, 130, 246, .3);
+            animation-delay: .15s
+        }
+
+        .dbar:nth-child(3) {
+            height: 15%;
+            background: rgba(59, 130, 246, .15);
+            animation-delay: .3s
+        }
+
+        .dbar:nth-child(4) {
+            height: 10%;
+            background: rgba(59, 130, 246, .1);
+            animation-delay: .45s
+        }
+
+        @keyframes bGrow {
+
+            0%,
+            100% {
+                transform: scaleY(1)
+            }
+
+            50% {
+                transform: scaleY(.85)
+            }
+        }
+
+        /* Pipeline diagram (from arch page) */
+        .pipe-dia {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            padding: var(--spacing-2xl) var(--spacing-lg);
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            overflow-x: auto
+        }
+
+        .pipe-st {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-lg);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            min-width: 120px;
+            text-align: center;
+            transition: all var(--transition-base)
+        }
+
+        .pipe-st:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md)
+        }
+
+        .pipe-ic {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-primary-subtle);
+            border-radius: 50%;
+            color: var(--color-primary)
+        }
+
+        .pipe-lbl {
+            font-size: .8125rem;
+            font-weight: 600;
+            color: var(--color-text-primary)
+        }
+
+        .pipe-sub {
+            font-size: .6875rem;
+            color: var(--color-text-muted)
+        }
+
+        .pipe-arr {
+            color: var(--color-primary);
+            flex-shrink: 0
+        }
+
+        /* CNN Table */
+        .cnn-tbl {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .875rem
+        }
+
+        .cnn-tbl thead {
+            background: var(--color-bg-secondary)
+        }
+
+        .cnn-tbl th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            border-bottom: 2px solid var(--border-color);
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .05em
+        }
+
+        .cnn-tbl td {
+            padding: 10px 16px;
+            color: var(--color-text-secondary);
+            border-bottom: 1px solid var(--border-color)
+        }
+
+        .cnn-tbl tbody tr:hover {
+            background: var(--color-primary-subtle)
+        }
+
+        .lbadge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: .75rem;
+            font-weight: 600;
+            font-family: var(--font-mono)
+        }
+
+        .lbadge.conv {
+            background: rgba(59, 130, 246, .15);
+            color: #3b82f6
+        }
+
+        .lbadge.bn {
+            background: rgba(168, 85, 247, .15);
+            color: #a855f7
+        }
+
+        .lbadge.pool {
+            background: rgba(245, 158, 11, .15);
+            color: #f59e0b
+        }
+
+        .lbadge.dense {
+            background: rgba(16, 185, 129, .15);
+            color: #10b981
+        }
+
+        .lbadge.drop {
+            background: rgba(239, 68, 68, .15);
+            color: #ef4444
+        }
+
+        /* Confidence */
+        .conf-demo {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-2xl)
+        }
+
+        .conf-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 60px;
+            gap: var(--spacing-md);
+            align-items: center;
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--border-color)
+        }
+
+        .conf-row:last-child {
+            border-bottom: none
+        }
+
+        .conf-lbl {
+            font-size: .875rem;
+            font-weight: 500;
+            color: var(--color-text-secondary)
+        }
+
+        .conf-track {
+            height: 10px;
+            background: var(--color-bg-secondary);
+            border-radius: 5px;
+            overflow: hidden
+        }
+
+        .conf-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1.5s ease
+        }
+
+        .conf-fill.green {
+            background: linear-gradient(90deg, #10b981, #34d399)
+        }
+
+        .conf-fill.yel {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24)
+        }
+
+        .conf-fill.red {
+            background: linear-gradient(90deg, #ef4444, #f87171)
+        }
+
+        .conf-val {
+            text-align: right;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: .9375rem
+        }
+
+        .conf-val.green {
+            color: #10b981
+        }
+
+        .conf-val.yel {
+            color: #f59e0b
+        }
+
+        .conf-val.red {
+            color: #ef4444
+        }
+
+        /* Conditions */
+        .cond-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md)
+        }
+
+        .cond-chip {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            transition: all var(--transition-base);
+            font-size: .9375rem
+        }
+
+        .cond-chip:hover {
+            border-color: var(--color-primary);
+            transform: translateX(4px)
+        }
+
+        .cdot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0
+        }
+
+        .cdot.ok {
+            background: #10b981
+        }
+
+        .cdot.warn {
+            background: #f59e0b
+        }
+
+        .cdot.crit {
+            background: #ef4444
+        }
+
+        /* CTA */
+        .btt-cta {
+            text-align: center;
+            padding: var(--spacing-3xl) 0;
+            border-top: 1px solid var(--border-color)
+        }
+
+        .btt-cta h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md)
+        }
+
+        .btt-cta p {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-xl);
+            font-size: 1.125rem
+        }
+
+        .btt-cta .btn {
+            padding: 16px 48px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 4px 24px rgba(59, 130, 246, .3);
+            transition: all var(--transition-base)
+        }
+
+        .btt-cta .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(59, 130, 246, .45)
+        }
+
+        /* ECG footer wave */
+        .ecg-footer-wave {
+            width: 100%;
+            height: 60px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: -1px
+        }
+
+        .ecg-footer-wave svg {
+            width: 200%;
+            height: 100%;
+            animation: ecgScroll 4s linear infinite
+        }
+
+        .ecg-footer-wave svg polyline {
+            fill: none;
+            stroke: var(--color-primary);
+            stroke-width: 1.5;
+            opacity: .18
+        }
+
+        @keyframes ecgScroll {
+            from {
+                transform: translateX(0)
+            }
+
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        /* Arch detail grids */
+        .arch-g {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg)
+        }
+
+        /* Animations */
+        @keyframes bttUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .btt-rv {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity .6s ease, transform .6s ease
+        }
+
+        .btt-rv.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        @media(max-width:768px) {
+            .btt-hero h1 {
+                font-size: 1.75rem
+            }
+
+            .arow,
+            .arch-g {
+                grid-template-columns: 1fr
+            }
+
+            .cnn-pipe {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .cond-grid {
+                grid-template-columns: 1fr
+            }
+
+            .lstep {
+                grid-template-columns: 48px 1fr
+            }
+
+            .pipe-dia {
+                flex-direction: column
+            }
+
+            .pipe-arr {
+                transform: rotate(90deg)
+            }
+        }
+
+        /* FAQ Accordion */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm)
+        }
+
+        .faq-item {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-base)
+        }
+
+        .faq-item:hover {
+            border-color: rgba(59, 130, 246, .3)
+        }
+
+        .faq-item.open {
+            border-color: var(--color-primary);
+            box-shadow: 0 2px 12px rgba(59, 130, 246, .08)
+        }
+
+        .faq-q {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            cursor: pointer;
+            background: var(--color-bg-card);
+            font-weight: 600;
+            font-size: .95rem;
+            color: var(--color-text);
+            user-select: none;
+            transition: background .2s
+        }
+
+        .faq-q:hover {
+            background: rgba(59, 130, 246, .03)
+        }
+
+        .faq-q .faq-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            transition: transform .3s ease
+        }
+
+        .faq-item.open .faq-q .faq-icon {
+            transform: rotate(45deg)
+        }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease, padding .3s ease;
+            padding: 0 var(--spacing-xl);
+            background: var(--color-bg-card)
+        }
+
+        .faq-item.open .faq-a {
+            max-height: 600px;
+            padding: 0 var(--spacing-xl) var(--spacing-xl)
+        }
+
+        .faq-a p,
+        .faq-a li {
+            font-size: .875rem;
+            line-height: 1.7;
+            color: var(--color-text-secondary)
+        }
+
+        .faq-a ul {
+            padding-left: var(--spacing-lg);
+            margin: var(--spacing-sm) 0
+        }
+
+        .faq-a li {
+            margin-bottom: var(--spacing-xs)
+        }
+
+        .faq-a strong {
+            color: var(--color-text)
+        }
+
+        .faq-a .faq-note {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: rgba(59, 130, 246, .05);
+            border-left: 3px solid var(--color-primary);
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+            font-size: .8125rem;
+            font-style: italic;
+            color: var(--color-text-muted)
+        }
+
+        /* Transfer flow cards */
+        .transfer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--spacing-md)
+        }
+
+        .transfer-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            transition: all var(--transition-base)
+        }
+
+        .transfer-card:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md)
+        }
+
+        .transfer-card .tc-emoji {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm)
+        }
+
+        .transfer-card h4 {
+            font-size: .875rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs)
+        }
+
+        .transfer-card p {
+            font-size: .8125rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon heartbeat">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
+                    </svg>
+                </div>
+                <span class="logo-text">CardioAI</span>
+            </a>
+            <nav class="nav-desktop">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="index.html#features" class="nav-link">Features</a></li>
+                    <li><a href="index.html#how-it-works" class="nav-link">How It Works</a></li>
+                    <li><a href="architecture.html" class="nav-link active">Behind the Technology</a></li>
+                    <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="index.html#upload-section" class="btn btn-primary btn-sm">Try Demo</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="btt-page container">
+        <!-- Hero -->
+        <div class="btt-hero">
+            <h1>Behind the Technology</h1>
+            <p class="btt-sub">How does a computer learn to read a heartbeat? No jargon. No PhD required. Just clear
+                explanations of the AI that powers CardioAI.</p>
+        </div>
+
+        <!-- S1: What is Deep Learning -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 16v-4" />
+                        <path d="M12 8h.01" />
+                    </svg>
+                    Starting Simple
+                </span>
+                <h2>What is Deep Learning?</h2>
+                <p>Deep Learning is a way for computers to learn patterns from data — much like how a child learns to
+                    recognize things by seeing thousands of examples. Instead of being told every rule, the computer
+                    figures out the rules on its own.</p>
+            </div>
+            <div class="arow btt-rv">
+                <div class="acard">
+                    <div class="acard-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                        </svg>
+                    </div>
+                    <h3>Traditional Programming</h3>
+                    <p>A human writes every rule by hand. For example: <em>"If the heart rate is above 100 AND the
+                            rhythm is irregular, flag it."</em></p>
+                    <span class="ahigh">This works for simple cases, but ECGs have thousands of subtle patterns that are
+                        nearly impossible to hand-code for every scenario.</span>
+                </div>
+                <div class="acard">
+                    <div class="acard-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9" />
+                        </svg>
+                    </div>
+                    <h3>Deep Learning Approach</h3>
+                    <p>We show the computer <strong>thousands of ECGs</strong> along with what a doctor diagnosed. Over
+                        time, the computer learns to spot the same patterns a cardiologist would — all by itself.</p>
+                    <span class="ahigh">Think of it like teaching by example, not by instruction. You show a child 1,000
+                        pictures of cats and dogs — soon they can tell the difference without being told the
+                        rules.</span>
+                </div>
+            </div>
+            <!-- Neural Network Visual -->
+            <div class="nn-box btt-rv">
+                <h3>How a Neural Network Learns</h3>
+                <p style="color:var(--color-text-secondary);font-size:.875rem;margin-bottom:var(--spacing-lg)">Data
+                    flows through layers of connected "neurons." Each layer learns to recognize increasingly complex
+                    patterns.</p>
+                <div class="nn-dia">
+                    <div class="nn-col"><span class="nn-lbl">Input</span>
+                        <div class="nn-nodes">
+                            <div class="nn-nd inp"></div>
+                            <div class="nn-nd inp"></div>
+                            <div class="nn-nd inp"></div>
+                            <div class="nn-nd inp"></div>
+                            <div class="nn-nd inp"></div>
+                        </div><span style="font-size:.6875rem;color:var(--color-text-muted);margin-top:4px">Raw ECG
+                            signal</span>
+                    </div>
+                    <div class="nn-conn"></div>
+                    <div class="nn-col"><span class="nn-lbl">Hidden Layer 1</span>
+                        <div class="nn-nodes">
+                            <div class="nn-nd hid"></div>
+                            <div class="nn-nd hid"></div>
+                            <div class="nn-nd hid"></div>
+                            <div class="nn-nd hid"></div>
+                        </div><span style="font-size:.6875rem;color:var(--color-text-muted);margin-top:4px">Basic
+                            shapes</span>
+                    </div>
+                    <div class="nn-conn"></div>
+                    <div class="nn-col"><span class="nn-lbl">Hidden Layer 2</span>
+                        <div class="nn-nodes">
+                            <div class="nn-nd hid"></div>
+                            <div class="nn-nd hid"></div>
+                            <div class="nn-nd hid"></div>
+                        </div><span
+                            style="font-size:.6875rem;color:var(--color-text-muted);margin-top:4px">Patterns</span>
+                    </div>
+                    <div class="nn-conn"></div>
+                    <div class="nn-col"><span class="nn-lbl">Output</span>
+                        <div class="nn-nodes">
+                            <div class="nn-nd out"></div>
+                            <div class="nn-nd out"></div>
+                        </div><span
+                            style="font-size:.6875rem;color:var(--color-text-muted);margin-top:4px">Diagnosis</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- S2: How AI Learns -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg> The Learning Process</span>
+                <h2>How Does AI Learn to Read an ECG?</h2>
+                <p>The training process is surprisingly intuitive. Here's how the model goes from knowing nothing to
+                    interpreting complex heart rhythms.</p>
+            </div>
+            <div class="lsteps">
+                <div class="lstep btt-rv">
+                    <div class="lstep-num">1</div>
+                    <div class="lstep-body">
+                        <h3>Gather Thousands of Real ECGs</h3>
+                        <p>We start with over <strong>21,000 real clinical ECGs</strong> from trusted open-source
+                            databases like <strong>PTB-XL</strong> (PhysioNet). Each one has been diagnosed by at least
+                            two certified cardiologists.</p>
+                    </div>
+                </div>
+                <div class="lstep btt-rv">
+                    <div class="lstep-num">2</div>
+                    <div class="lstep-body">
+                        <h3>Show Each ECG to the Model</h3>
+                        <p>The model sees an ECG and makes a guess — "I think this is Atrial Fibrillation." At first,
+                            it's usually wrong. Like a medical student on day one, it hasn't learned the patterns yet.
+                        </p>
+                    </div>
+                </div>
+                <div class="lstep btt-rv">
+                    <div class="lstep-num">3</div>
+                    <div class="lstep-body">
+                        <h3>Check Against the Doctor's Answer</h3>
+                        <p>We compare the model's guess to the real diagnosis. If wrong, we calculate <em>how wrong</em>
+                            and in what direction. This "error signal" tells the model exactly what to adjust.</p>
+                    </div>
+                </div>
+                <div class="lstep btt-rv">
+                    <div class="lstep-num">4</div>
+                    <div class="lstep-body">
+                        <h3>Adjust and Repeat — Millions of Times</h3>
+                        <p>The model tweaks its internal parameters to reduce its error. This cycle — <em>guess, check,
+                                adjust</em> — repeats millions of times. Gradually, the model develops an intuition for
+                            ECG patterns.</p>
+                    </div>
+                </div>
+                <div class="lstep btt-rv">
+                    <div class="lstep-num">5</div>
+                    <div class="lstep-body">
+                        <h3>Test on ECGs It Has Never Seen</h3>
+                        <p>We test the trained model on a completely separate set of ECGs. This proves it actually
+                            <em>learned</em> patterns. Our model achieves a <strong>94.3% F1 Score</strong> on this
+                            unseen test set.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- S3: What is a CNN -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <line x1="3" y1="9" x2="21" y2="9" />
+                        <line x1="9" y1="21" x2="9" y2="9" />
+                    </svg> The Core Model</span>
+                <h2>What is a CNN?</h2>
+                <p>CNN stands for <strong>Convolutional Neural Network</strong>. Don't worry about the name — a CNN is
+                    specifically designed to spot patterns in sequences (like heartbeat signals) by scanning small
+                    windows across the data, piece by piece.</p>
+            </div>
+            <div class="arow btt-rv" style="margin-bottom:var(--spacing-2xl)">
+                <div class="acard">
+                    <div class="acard-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg></div>
+                    <h3>The Magnifying Glass Analogy</h3>
+                    <p>Imagine sliding a small magnifying glass across an ECG printout. At each position, the glass
+                        highlights a tiny section. The CNN does the same — it slides a "filter" across the signal,
+                        looking for spikes, dips, or irregular gaps.</p>
+                    <span class="ahigh">By stacking many filters together, the CNN can detect complex combinations of
+                        patterns — just like a doctor scans for QRS complexes, P-waves, and ST segments all at
+                        once.</span>
+                </div>
+                <div class="acard">
+                    <div class="acard-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                            <polyline points="2 17 12 22 22 17" />
+                            <polyline points="2 12 12 17 22 12" />
+                        </svg></div>
+                    <h3>Layers of Understanding</h3>
+                    <p>A CNN has multiple layers, each learning something different:</p>
+                    <ul>
+                        <li><strong style="color:var(--color-primary)">Layer 1:</strong> Basic shapes — sharp peaks,
+                            flat lines, small wiggles</li>
+                        <li><strong style="color:var(--color-primary)">Layer 2:</strong> Combinations — a peak followed
+                            by a dip (like a QRS complex)</li>
+                        <li><strong style="color:var(--color-primary)">Layer 3:</strong> Full rhythm patterns — Atrial
+                            Fibrillation vs. Normal Sinus</li>
+                    </ul>
+                </div>
+            </div>
+            <h3
+                style="font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-muted);font-weight:600;margin-bottom:var(--spacing-lg);text-align:center">
+                How Our CNN Processes Your ECG</h3>
+            <div class="cnn-pipe btt-rv">
+                <div class="cnn-st">
+                    <div class="cnn-st-n">1</div>
+                    <div class="cnn-st-vis">
+                        <div class="wave-sc"><svg viewBox="0 0 80 40">
+                                <polyline
+                                    points="0,20 10,20 15,5 20,35 25,10 30,30 35,20 45,20 50,15 55,25 60,20 70,20 80,20" />
+                            </svg></div>
+                    </div>
+                    <h3>Scan the Signal</h3>
+                    <p>The raw ECG waveform enters as a sequence of numbers representing voltage over time.</p>
+                </div>
+                <div class="cnn-st">
+                    <div class="cnn-st-n">2</div>
+                    <div class="cnn-st-vis">
+                        <div class="fgrid">
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                            <div class="fcell"></div>
+                        </div>
+                    </div>
+                    <h3>Detect Features</h3>
+                    <p>Convolutional filters slide across, each hunting for a different pattern — peaks, dips,
+                        irregularities.</p>
+                </div>
+                <div class="cnn-st">
+                    <div class="cnn-st-n">3</div>
+                    <div class="cnn-st-vis">
+                        <div class="pool-v">
+                            <div class="pool-sq">
+                                <div class="psq"></div>
+                                <div class="psq"></div>
+                                <div class="psq"></div>
+                                <div class="psq"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Compress & Focus</h3>
+                    <p>Pooling layers shrink data, keeping only the most important features — the key moments in the
+                        heartbeat.</p>
+                </div>
+                <div class="cnn-st">
+                    <div class="cnn-st-n">4</div>
+                    <div class="cnn-st-vis">
+                        <div class="dec-v">
+                            <div class="dec-bars">
+                                <div class="dbar"></div>
+                                <div class="dbar"></div>
+                                <div class="dbar"></div>
+                                <div class="dbar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Make a Decision</h3>
+                    <p>The final layer weighs all evidence and outputs a probability for each condition. The highest
+                        wins.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- S4: System Pipeline (Technical) -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <line x1="3" y1="9" x2="21" y2="9" />
+                        <line x1="9" y1="21" x2="9" y2="9" />
+                    </svg> Technical Deep-Dive</span>
+                <h2>Full System Pipeline</h2>
+                <p>The complete pipeline from ECG input to clinical output. Each stage is modular and runs client-side.
+                </p>
+            </div>
+            <div class="pipe-dia btt-rv">
+                <div class="pipe-st">
+                    <div class="pipe-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17 8 12 3 7 8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg></div><span class="pipe-lbl">ECG Input</span><span class="pipe-sub">PNG / JPG / PDF</span>
+                </div>
+                <div class="pipe-arr"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg></div>
+                <div class="pipe-st">
+                    <div class="pipe-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="4" width="16" height="16" rx="2" />
+                            <line x1="4" y1="12" x2="20" y2="12" />
+                            <line x1="12" y1="4" x2="12" y2="20" />
+                        </svg></div><span class="pipe-lbl">Preprocessing</span><span class="pipe-sub">Normalize &
+                        Extract</span>
+                </div>
+                <div class="pipe-arr"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg></div>
+                <div class="pipe-st">
+                    <div class="pipe-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06" />
+                        </svg></div><span class="pipe-lbl">1D CNN Model</span><span
+                        class="pipe-sub">TensorFlow.js</span>
+                </div>
+                <div class="pipe-arr"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg></div>
+                <div class="pipe-st">
+                    <div class="pipe-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                        </svg></div><span class="pipe-lbl">Post-processing</span><span class="pipe-sub">Clinical
+                        Mapping</span>
+                </div>
+                <div class="pipe-arr"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg></div>
+                <div class="pipe-st">
+                    <div class="pipe-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg></div><span class="pipe-lbl">Results</span><span class="pipe-sub">Report & Risk
+                        Score</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- S5: Model Architecture Table -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                    </svg> Model Details</span>
+                <h2>1D CNN Architecture</h2>
+                <p>A residual 1D convolutional network optimized for ECG signal classification, extracting temporal
+                    features at multiple scales.</p>
+            </div>
+            <div class="acard btt-rv" style="overflow-x:auto">
+                <table class="cnn-tbl">
+                    <thead>
+                        <tr>
+                            <th>Layer</th>
+                            <th>Type</th>
+                            <th>Configuration</th>
+                            <th>Output Shape</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Input</td>
+                            <td><span class="lbadge conv">Input</span></td>
+                            <td>12-lead ECG signal</td>
+                            <td>(5000, 12)</td>
+                        </tr>
+                        <tr>
+                            <td>Conv Block 1</td>
+                            <td><span class="lbadge conv">Conv1D</span></td>
+                            <td>64 filters, kernel=7, ReLU</td>
+                            <td>(5000, 64)</td>
+                        </tr>
+                        <tr>
+                            <td>BatchNorm 1</td>
+                            <td><span class="lbadge bn">BatchNorm</span></td>
+                            <td>Normalize + ReLU</td>
+                            <td>(5000, 64)</td>
+                        </tr>
+                        <tr>
+                            <td>MaxPool 1</td>
+                            <td><span class="lbadge pool">MaxPool</span></td>
+                            <td>Pool=2, stride=2</td>
+                            <td>(2500, 64)</td>
+                        </tr>
+                        <tr>
+                            <td>Conv Block 2</td>
+                            <td><span class="lbadge conv">Conv1D</span></td>
+                            <td>128 filters, kernel=5, ReLU</td>
+                            <td>(2500, 128)</td>
+                        </tr>
+                        <tr>
+                            <td>BatchNorm 2</td>
+                            <td><span class="lbadge bn">BatchNorm</span></td>
+                            <td>Normalize + ReLU</td>
+                            <td>(2500, 128)</td>
+                        </tr>
+                        <tr>
+                            <td>MaxPool 2</td>
+                            <td><span class="lbadge pool">MaxPool</span></td>
+                            <td>Pool=2, stride=2</td>
+                            <td>(1250, 128)</td>
+                        </tr>
+                        <tr>
+                            <td>Conv Block 3</td>
+                            <td><span class="lbadge conv">Conv1D</span></td>
+                            <td>256 filters, kernel=3, ReLU</td>
+                            <td>(1250, 256)</td>
+                        </tr>
+                        <tr>
+                            <td>Global AvgPool</td>
+                            <td><span class="lbadge pool">GAP</span></td>
+                            <td>Global average pooling</td>
+                            <td>(256)</td>
+                        </tr>
+                        <tr>
+                            <td>Dense 1</td>
+                            <td><span class="lbadge dense">Dense</span></td>
+                            <td>128 units, ReLU</td>
+                            <td>(128)</td>
+                        </tr>
+                        <tr>
+                            <td>Dropout</td>
+                            <td><span class="lbadge drop">Dropout</span></td>
+                            <td>Rate = 0.3</td>
+                            <td>(128)</td>
+                        </tr>
+                        <tr>
+                            <td>Output</td>
+                            <td><span class="lbadge dense">Dense</span></td>
+                            <td>15 classes, Softmax</td>
+                            <td>(15)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Legend: plain-language glossary for non-technical readers -->
+                <div
+                    style="margin-top:var(--spacing-xl);padding:var(--spacing-xl);background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.12);border-radius:var(--border-radius-lg)">
+                    <h4
+                        style="font-size:1rem;font-weight:700;margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:8px">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="16" x2="12" y2="12" />
+                            <line x1="12" y1="8" x2="12.01" y2="8" />
+                        </svg>
+                        What does each term mean?
+                    </h4>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md)">
+                        <div style="display:flex;gap:10px;align-items:flex-start">
+                            <span class="lbadge conv" style="flex-shrink:0;margin-top:2px">Conv1D</span>
+                            <p style="font-size:.875rem;line-height:1.65;color:var(--color-text-secondary);margin:0">
+                                <strong>Convolution Layer</strong> — Slides a small "window" across the ECG signal to
+                                detect specific patterns like peaks, dips, and rhythms. Think of it as a magnifying
+                                glass scanning for clues.
+                            </p>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start">
+                            <span class="lbadge bn" style="flex-shrink:0;margin-top:2px">BatchNorm</span>
+                            <p style="font-size:.875rem;line-height:1.65;color:var(--color-text-secondary);margin:0">
+                                <strong>Batch Normalization</strong> — Keeps the data flowing through the network at a
+                                consistent scale, preventing the AI from getting "confused" by wildly varying signal
+                                amplitudes.
+                            </p>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start">
+                            <span class="lbadge pool" style="flex-shrink:0;margin-top:2px">MaxPool</span>
+                            <p style="font-size:.875rem;line-height:1.65;color:var(--color-text-secondary);margin:0">
+                                <strong>Max Pooling</strong> — Compresses the signal by keeping only the most important
+                                features from each section. Like summarizing a paragraph into its key sentence.
+                            </p>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start">
+                            <span class="lbadge pool" style="flex-shrink:0;margin-top:2px">GAP</span>
+                            <p style="font-size:.875rem;line-height:1.65;color:var(--color-text-secondary);margin:0">
+                                <strong>Global Average Pooling</strong> — Takes the average of all remaining features to
+                                create one compact summary before the final decision step.
+                            </p>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start">
+                            <span class="lbadge dense" style="flex-shrink:0;margin-top:2px">Dense</span>
+                            <p style="font-size:.875rem;line-height:1.65;color:var(--color-text-secondary);margin:0">
+                                <strong>Fully Connected Layer</strong> — Combines all the detected patterns to reach a
+                                final conclusion, like a doctor weighing all the evidence before making a diagnosis.
+                            </p>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:flex-start">
+                            <span class="lbadge drop" style="flex-shrink:0;margin-top:2px">Dropout</span>
+                            <p style="font-size:.875rem;line-height:1.65;color:var(--color-text-secondary);margin:0">
+                                <strong>Dropout</strong> — Randomly disables 30% of neurons during training so the model
+                                doesn't "memorize" — it forces the AI to learn robust, generalizable patterns.
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        style="margin-top:var(--spacing-lg);padding-top:var(--spacing-md);border-top:1px solid var(--border-color)">
+                        <h4
+                            style="font-size:.875rem;font-weight:600;margin-bottom:var(--spacing-sm);color:var(--color-text-muted)">
+                            Reading the table columns</h4>
+                        <ul
+                            style="list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:var(--spacing-md)">
+                            <li style="font-size:.8125rem;color:var(--color-text-secondary);line-height:1.6">
+                                <strong>Configuration</strong> — Settings like the number of filters (pattern detectors)
+                                and kernel size (how wide the scanning window is).
+                            </li>
+                            <li style="font-size:.8125rem;color:var(--color-text-secondary);line-height:1.6">
+                                <strong>Output Shape</strong> — The size of data after the layer processes it; the
+                                numbers shrink as the signal is distilled into key insights.
+                            </li>
+                            <li style="font-size:.8125rem;color:var(--color-text-secondary);line-height:1.6">
+                                <strong>ReLU / Softmax</strong> — Activation functions; ReLU means "ignore negatives"
+                                and Softmax converts final scores into probabilities that add up to 100%.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- S6: Confidence Score -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg> Trust & Transparency</span>
+                <h2>Understanding the Confidence Score</h2>
+                <p>Every analysis comes with a confidence score — a simple percentage that tells you how certain the AI
+                    is about its diagnosis.</p>
+            </div>
+            <div class="arow btt-rv">
+                <div class="acard">
+                    <h3>What the Score Means</h3>
+                    <p>The score ranges from 0% to 100%:</p>
+                    <ul>
+                        <li><strong style="color:#10b981">90–100%</strong> High confidence. Strong morphological match.
+                        </li>
+                        <li><strong style="color:#f59e0b">80–89%</strong> Moderate. Likely correct, but some noise or
+                            ambiguity.</li>
+                        <li><strong style="color:#ef4444">Below 80%</strong> Low confidence. Manual expert review
+                            recommended.</li>
+                    </ul>
+                </div>
+                <div class="conf-demo">
+                    <h3 style="font-size:1.0625rem;font-weight:600;margin-bottom:var(--spacing-lg)">Example Results</h3>
+                    <div class="conf-row"><span class="conf-lbl">Normal Sinus</span>
+                        <div class="conf-track">
+                            <div class="conf-fill green" style="width:96%"></div>
+                        </div><span class="conf-val green">96%</span>
+                    </div>
+                    <div class="conf-row"><span class="conf-lbl">Atrial Fib</span>
+                        <div class="conf-track">
+                            <div class="conf-fill green" style="width:91%"></div>
+                        </div><span class="conf-val green">91%</span>
+                    </div>
+                    <div class="conf-row"><span class="conf-lbl">STEMI</span>
+                        <div class="conf-track">
+                            <div class="conf-fill yel" style="width:84%"></div>
+                        </div><span class="conf-val yel">84%</span>
+                    </div>
+                    <div class="conf-row"><span class="conf-lbl">Unclear ECG</span>
+                        <div class="conf-track">
+                            <div class="conf-fill red" style="width:58%"></div>
+                        </div><span class="conf-val red">58%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- S7: Conditions -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg> Capabilities</span>
+                <h2>What Conditions Can It Detect?</h2>
+                <p>CardioAI can identify over 15 cardiac conditions, categorized by clinical severity.</p>
+            </div>
+            <div class="cond-grid btt-rv">
+                <div class="cond-chip"><span class="cdot ok"></span>Normal Sinus Rhythm</div>
+                <div class="cond-chip"><span class="cdot ok"></span>Sinus Bradycardia</div>
+                <div class="cond-chip"><span class="cdot ok"></span>Sinus Tachycardia</div>
+                <div class="cond-chip"><span class="cdot warn"></span>Atrial Fibrillation</div>
+                <div class="cond-chip"><span class="cdot warn"></span>Atrial Flutter</div>
+                <div class="cond-chip"><span class="cdot warn"></span>First-Degree AV Block</div>
+                <div class="cond-chip"><span class="cdot warn"></span>Left Bundle Branch Block</div>
+                <div class="cond-chip"><span class="cdot warn"></span>Right Bundle Branch Block</div>
+                <div class="cond-chip"><span class="cdot warn"></span>Premature Ventricular Contractions</div>
+                <div class="cond-chip"><span class="cdot crit"></span>Ventricular Tachycardia</div>
+                <div class="cond-chip"><span class="cdot crit"></span>ST Elevation (STEMI)</div>
+                <div class="cond-chip"><span class="cdot crit"></span>ST Depression</div>
+                <div class="cond-chip"><span class="cdot crit"></span>Ventricular Fibrillation</div>
+                <div class="cond-chip"><span class="cdot warn"></span>QT Prolongation</div>
+                <div class="cond-chip"><span class="cdot warn"></span>Left Ventricular Hypertrophy</div>
+            </div>
+        </section>
+
+        <!-- S8: Privacy & Offline -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg> Your Data Stays With You</span>
+                <h2>100% Browser-Based. Zero Data Sent.</h2>
+                <p>Unlike cloud-based AI tools, CardioAI runs the entire analysis directly in your browser using
+                    TensorFlow.js. Your ECG data never leaves your device — not even for a millisecond.</p>
+            </div>
+
+            <!-- Step-by-step: How local processing works -->
+            <div style="margin-bottom:var(--spacing-2xl)">
+                <h3
+                    style="font-size:1.125rem;font-weight:700;margin-bottom:var(--spacing-lg);display:flex;align-items:center;gap:8px">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)"
+                        stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                    How local processing works — step by step
+                </h3>
+                <div class="lsteps">
+                    <div class="lstep btt-rv">
+                        <div class="lstep-num">1</div>
+                        <div class="lstep-body">
+                            <h3>You open CardioAI in your browser</h3>
+                            <p>The first time you visit, your browser downloads the AI model file (~4 MB) — roughly the
+                                size of a single photo. This model contains everything the AI needs to analyze ECGs. It
+                                gets saved in your browser's <strong>cache</strong>, so it only downloads once.</p>
+                        </div>
+                    </div>
+                    <div class="lstep btt-rv">
+                        <div class="lstep-num">2</div>
+                        <div class="lstep-body">
+                            <h3>You upload an ECG image</h3>
+                            <p>When you select an ECG file, it stays <strong>100% on your device</strong>. The file is
+                                read directly by your browser — it is never uploaded to any server, cloud storage, or
+                                external service. The image goes from your file system straight into your browser's
+                                memory.</p>
+                        </div>
+                    </div>
+                    <div class="lstep btt-rv">
+                        <div class="lstep-num">3</div>
+                        <div class="lstep-body">
+                            <h3>The AI analyzes it — right here, right now</h3>
+                            <p>Using a technology called <strong>TensorFlow.js</strong>, the AI model runs entirely
+                                inside your browser tab, using your device's own processor (CPU/GPU). The ECG signal is
+                                processed through the neural network layers, pattern matching and classification happen
+                                in real time — all without any network requests.</p>
+                        </div>
+                    </div>
+                    <div class="lstep btt-rv">
+                        <div class="lstep-num">4</div>
+                        <div class="lstep-body">
+                            <h3>Results appear instantly — nothing is stored</h3>
+                            <p>The analysis results (detected conditions, confidence scores, risk assessment) are shown
+                                on screen. When you close the tab or navigate away, <strong>everything is gone</strong>
+                                — no logs, no traces, no saved copies. There is no database, no user account, and no
+                                server keeping records.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two-column detail cards -->
+            <div class="arow btt-rv" style="margin-bottom:var(--spacing-2xl)">
+                <div class="acard">
+                    <div class="acard-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <line x1="1" y1="1" x2="23" y2="23" />
+                            <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55" />
+                            <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39" />
+                            <path d="M10.71 5.05A16 16 0 0 1 22.56 9" />
+                            <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88" />
+                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+                            <line x1="12" y1="20" x2="12.01" y2="20" />
+                        </svg></div>
+                    <h3>Works Without Internet</h3>
+                    <p>Once the model is cached in your browser, you can <strong>disconnect from the internet
+                            entirely</strong> and CardioAI will still work. This makes it ideal for:</p>
+                    <ul>
+                        <li>🏥 Clinics with unreliable or restricted internet access</li>
+                        <li>✈️ Remote or field-based medical setups</li>
+                        <li>🔒 High-security environments where network access is limited</li>
+                        <li>📱 Mobile devices on the go with spotty connectivity</li>
+                    </ul>
+                    <span class="ahigh">The model file is stored in your browser's standard cache. You can clear it
+                        anytime through your browser settings — giving you full control.</span>
+                </div>
+                <div class="acard">
+                    <div class="acard-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg></div>
+                    <h3>Why This Matters for Patient Privacy</h3>
+                    <p>Medical data is among the most sensitive personal information. Traditional AI tools require
+                        uploading patient data to external servers, creating risks of:</p>
+                    <ul>
+                        <li>⚠️ Data breaches and unauthorized access</li>
+                        <li>⚠️ Third-party data retention and profiling</li>
+                        <li>⚠️ Compliance violations (HIPAA, GDPR)</li>
+                        <li>⚠️ Patient trust erosion</li>
+                    </ul>
+                    <span class="ahigh">CardioAI eliminates all of these risks by design. Since data never leaves the
+                        device, there is nothing to breach, nothing to comply with externally, and nothing to worry
+                        about.</span>
+                </div>
+            </div>
+
+            <!-- Cloud vs Local comparison -->
+            <div class="acard btt-rv" style="overflow-x:auto">
+                <h3
+                    style="font-size:1rem;font-weight:700;margin-bottom:var(--spacing-lg);display:flex;align-items:center;gap:8px">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)"
+                        stroke-width="2">
+                        <polyline points="16 3 21 3 21 8" />
+                        <line x1="4" y1="20" x2="21" y2="3" />
+                        <polyline points="21 16 21 21 16 21" />
+                        <line x1="15" y1="15" x2="21" y2="21" />
+                        <line x1="4" y1="4" x2="9" y2="9" />
+                    </svg>
+                    Cloud AI vs. CardioAI — at a glance
+                </h3>
+                <table class="cnn-tbl">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>☁️ Typical Cloud AI</th>
+                            <th>💻 CardioAI (Browser-Based)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Where data goes</strong></td>
+                            <td>Uploaded to remote servers</td>
+                            <td style="color:var(--color-primary);font-weight:600">Stays on your device — nowhere else
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Internet required</strong></td>
+                            <td>Always, for every analysis</td>
+                            <td style="color:var(--color-primary);font-weight:600">Only once to load the model</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data stored?</strong></td>
+                            <td>Often yes, on provider's servers</td>
+                            <td style="color:var(--color-primary);font-weight:600">Never — vanishes when you close the
+                                tab</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Third-party access</strong></td>
+                            <td>Possible (vendor, hosting, etc.)</td>
+                            <td style="color:var(--color-primary);font-weight:600">Impossible — no server involved</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed</strong></td>
+                            <td>Depends on network latency</td>
+                            <td style="color:var(--color-primary);font-weight:600">Instant — limited only by your device
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Works offline</strong></td>
+                            <td>❌ No</td>
+                            <td style="color:var(--color-primary);font-weight:600">✅ Yes, after first visit</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- S9: How to Get Your ECG File -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg> Getting Your ECG File</span>
+                <h2>How Do I Transfer My ECG to CardioAI?</h2>
+                <p>ECG machines don't connect to CardioAI via WiFi or Bluetooth. Instead, you export the file from the
+                    machine and upload it through your browser — just like attaching a file to an email.</p>
+            </div>
+            <div class="transfer-grid btt-rv">
+                <div class="transfer-card">
+                    <div class="tc-emoji">📷</div>
+                    <h4>Take a Photo</h4>
+                    <p>The simplest method — photograph the printed ECG strip with your phone camera and upload the
+                        image (JPG/PNG)</p>
+                </div>
+                <div class="transfer-card">
+                    <div class="tc-emoji">🖨️</div>
+                    <h4>Scan the ECG Printout</h4>
+                    <p>Use a flatbed scanner or a scanning app on your phone to create a high-quality digital copy (PDF
+                        or image)</p>
+                </div>
+                <div class="transfer-card">
+                    <div class="tc-emoji">💾</div>
+                    <h4>USB / SD Card Export</h4>
+                    <p>Many modern ECG machines save files to USB drives or SD cards. Copy the file to your computer and
+                        upload</p>
+                </div>
+                <div class="transfer-card">
+                    <div class="tc-emoji">📧</div>
+                    <h4>Email or Cloud</h4>
+                    <p>Some machines can email the ECG report as a PDF. Download the attachment and upload to CardioAI
+                    </p>
+                </div>
+            </div>
+            <div class="acard btt-rv" style="margin-top:var(--spacing-xl)">
+                <h4 style="font-size:.9rem;font-weight:600;margin-bottom:var(--spacing-sm)">What formats does CardioAI
+                    accept?</h4>
+                <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.65;margin:0">
+                    CardioAI accepts standard image formats — <strong>JPG, PNG, BMP, and WEBP</strong>. If your ECG
+                    machine exports in PDF, simply take a screenshot of the relevant page or use a PDF-to-image
+                    converter. For best results, ensure the image clearly shows the full 12-lead ECG waveform without
+                    obstructions.
+                </p>
+            </div>
+        </section>
+
+        <!-- S10: FAQ -->
+        <section class="btt-section">
+            <div class="btt-sh">
+                <span class="btt-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg> Frequently Asked Questions</span>
+                <h2>Common Questions About CardioAI</h2>
+                <p>Answers to the questions most frequently asked by clinicians, administrators, and investors.</p>
+            </div>
+
+            <div class="faq-list btt-rv">
+                <!-- FAQ 1 -->
+                <div class="faq-item">
+                    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>How does a huge AI model fit in just ~4 MB?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </div>
+                    <div class="faq-a">
+                        <p>Great question — and the answer is well-documented computer science, not magic. Three
+                            techniques work together:</p>
+                        <ul>
+                            <li><strong>Quantization</strong> — The model's internal numbers are stored at lower
+                                precision (8-bit integers instead of 32-bit decimals). This alone cuts the file size by
+                                ~75%, with virtually no loss in accuracy. Think of it like rounding ₹99.387 to ₹99 —
+                                close enough for all practical purposes.</li>
+                            <li><strong>Pruning</strong> — The AI removes "lazy" connections (weights close to zero)
+                                that contribute almost nothing to the final answer. A well-pruned model can be 90%
+                                sparser — meaning 90% of the numbers become zeros.</li>
+                            <li><strong>Compression</strong> — All those zeros compress extremely well with standard
+                                algorithms (like gzip). A 90% sparse model can shrink by 6–10× during download.</li>
+                        </ul>
+                        <p>Combined, these techniques can reduce a 60 MB research model to ~4 MB for deployment — while
+                            retaining 94%+ classification accuracy. This is the same approach used by Google, Apple, and
+                            Tesla to run AI models on phones and cars.</p>
+                        <div class="faq-note">Source: TensorFlow Model Optimization Toolkit —
+                            tensorflow.org/model_optimization</div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq-item">
+                    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>How do I transfer an ECG from the machine to this app? Is it WiFi or Bluetooth?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </div>
+                    <div class="faq-a">
+                        <p><strong>Neither.</strong> CardioAI is a web application, not a hardware accessory — it
+                            doesn't connect directly to ECG machines. Instead, the workflow is:</p>
+                        <ul>
+                            <li>📷 <strong>Photograph</strong> the printed ECG strip with your phone</li>
+                            <li>💾 <strong>Export</strong> the file from the machine via USB/SD card</li>
+                            <li>📧 <strong>Email</strong> the ECG report as PDF and download it</li>
+                            <li>🖨️ <strong>Scan</strong> the paper printout using any scanner app</li>
+                        </ul>
+                        <p>Then simply open CardioAI in your browser and upload the image. It's as easy as attaching a
+                            photo to a WhatsApp message. No special cables, no pairing, no app installation required.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item">
+                    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Does CardioAI replace a cardiologist?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </div>
+                    <div class="faq-a">
+                        <p><strong>Absolutely not.</strong> CardioAI is a <strong>screening and decision-support
+                                tool</strong>, not a diagnostic replacement. Think of it like spell-check for doctors —
+                            it highlights potential issues, but the doctor always makes the final call.</p>
+                        <p>The tool is especially useful for:</p>
+                        <ul>
+                            <li><strong>Primary care doctors</strong> who see ECGs but aren't cardiologists — it gives
+                                them a second opinion in seconds</li>
+                            <li><strong>Rural clinics</strong> where a cardiologist may be hours away — it helps
+                                prioritize urgent cases for referral</li>
+                            <li><strong>Medical students</strong> learning to read ECGs — it provides instant
+                                educational feedback</li>
+                        </ul>
+                        <p>Every report includes a clear disclaimer stating that results must be verified by a qualified
+                            physician.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq-item">
+                    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Is CardioAI approved by FDA, CDSCO, or any regulatory body?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </div>
+                    <div class="faq-a">
+                        <p>CardioAI is currently a <strong>research and educational demonstration tool</strong>. It has
+                            not received FDA (USA), CDSCO (India), or CE (Europe) clearance for clinical diagnostic use.
+                        </p>
+                        <p>That said, the underlying technology — AI-powered ECG interpretation — is an active area of
+                            regulatory approval globally. Companies like AliveCor and Tricog have received CDSCO
+                            approval for their AI ECG devices in India (as of 2025).</p>
+                        <p>Our roadmap includes pursuing regulatory clearance as the tool matures and undergoes the
+                            required clinical validation trials.</p>
+                        <div class="faq-note">CardioAI should not be used as the sole basis for clinical decisions.
+                            Always consult a qualified physician.</div>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="faq-item">
+                    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Can I use CardioAI on my phone or tablet?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </div>
+                    <div class="faq-a">
+                        <p><strong>Yes!</strong> CardioAI runs in any modern web browser — Chrome, Safari, Firefox, or
+                            Edge — on any device. No app download needed.</p>
+                        <p>On a phone, you can directly photograph a paper ECG and upload it from your camera roll. On a
+                            tablet or laptop, you can also upload files from USB or email. The AI model runs locally
+                            regardless of device type, though analysis may be slightly faster on devices with more
+                            processing power.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 6 -->
+                <div class="faq-item">
+                    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>What happens if the AI gives a wrong result?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </div>
+                    <div class="faq-a">
+                        <p>No AI system is 100% accurate — and CardioAI is transparent about this. Every result comes
+                            with a <strong>confidence score</strong> that tells you how certain the AI is about its
+                            prediction.</p>
+                        <ul>
+                            <li><strong>High confidence (≥85%)</strong> — The AI is fairly certain. Still verify with
+                                clinical judgment.</li>
+                            <li><strong>Moderate confidence (60–85%)</strong> — The AI detected something but isn't
+                                sure. Prioritize manual review.</li>
+                            <li><strong>Low confidence (&lt;60%)</strong> — The AI is uncertain. This could be due to
+                                image quality, noise, or rare conditions. A specialist review is strongly recommended.
+                            </li>
+                        </ul>
+                        <p>This is by design — we'd rather flag uncertainty than give false assurance. The model
+                            achieves a 94.3% F1 score on benchmark datasets, but real-world accuracy depends heavily on
+                            image quality.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 7 -->
+                <div class="faq-item">
+                    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>How does CardioAI make money?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </div>
+                    <div class="faq-a">
+                        <p>CardioAI follows a <strong>freemium SaaS model</strong> designed for the Indian healthcare
+                            landscape:</p>
+                        <ul>
+                            <li><strong>Free tier</strong> — 5 ECG analyses/month for anyone. No sign-up. Builds
+                                awareness and trust.</li>
+                            <li><strong>Clinic Pro (₹1,999/month)</strong> — Unlimited analyses, detailed reports with
+                                PDF export, and priority support. Targeted at private clinics and solo practitioners.
+                            </li>
+                            <li><strong>Hospital Enterprise (custom pricing)</strong> — Multi-user access, API
+                                integration with hospital EMR systems, white-label options, and dedicated SLAs.</li>
+                        </ul>
+                        <p>The business model is attractive because <strong>marginal costs are near-zero</strong> —
+                            since the AI runs in the user's browser, there are no expensive cloud servers processing
+                            each ECG. Revenue scales with subscriptions, not server bills.</p>
+                        <p>See our <a href="pricing.html" style="color:var(--color-primary);font-weight:600">Pricing
+                                Page</a> for detailed plans and our financial model.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 8 -->
+                <div class="faq-item">
+                    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Who built CardioAI and why?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                    </div>
+                    <div class="faq-a">
+                        <p>CardioAI was built to solve a real problem: <strong>India has over 61 million people living
+                                with heart conditions, but only ~4,000 cardiologists</strong> — roughly one for every
+                            15,000 heart patients. Most ECGs are read by general practitioners who may miss subtle
+                            abnormalities.</p>
+                        <p>Our mission is to make expert-level ECG interpretation accessible to every doctor in every
+                            clinic — regardless of location, resources, or specialist availability. By running AI in the
+                            browser with zero infrastructure requirements, we're removing every barrier to adoption.</p>
+                        <div class="faq-note">Source: WHO estimates on India's cardiovascular burden; Medical Council of
+                            India specialist registry data.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="btt-cta">
+            <h2>Ready to See It in Action?</h2>
+            <p>Upload an ECG or try one of our sample analyses to see the AI at work.</p>
+            <a href="index.html#upload-section" class="btn btn-primary">Try the Demo</a>
+        </div>
+    </main>
+
+    <!-- Minimalistic ECG wave animation -->
+    <div class="ecg-footer-wave">
+        <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+            <polyline
+                points="0,30 40,30 60,30 80,30 100,30 120,30 140,28 160,32 180,30 200,30 220,30 240,30 260,30 280,30 295,30 300,10 305,50 310,5 315,55 320,30 325,30 340,30 360,30 380,30 400,30 420,30 440,30 460,28 480,32 500,30 520,30 540,30 560,30 580,30 600,30 620,30 640,30 660,10 665,50 670,5 675,55 680,30 700,30 720,30 740,30 760,30 780,30 800,30 820,28 840,32 860,30 880,30 900,30 920,30 940,30 960,30 980,30 1000,30 1020,10 1025,50 1030,5 1035,55 1040,30 1060,30 1080,30 1100,30 1120,30 1140,30 1160,28 1180,32 1200,30" />
+        </svg>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon small heartbeat"><svg width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="#ef4444" stroke-width="2">
+                                <path
+                                    d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
+                            </svg></div><span class="logo-text">CardioAI</span>
+                    </div>
+                    <p class="footer-desc">AI-powered ECG interpretation for healthcare professionals.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#how-it-works">How It Works</a></li>
+                        <li><a href="index.html#upload-section">Try Demo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="architecture.html">Behind the Technology</a></li>
+                        <li><a href="#">Research Papers</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                <p><strong>Medical Disclaimer:</strong> CardioAI is intended for educational and demonstration purposes
+                    only. Always consult qualified healthcare professionals for ECG interpretation.</p>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2026 CardioAI. Built for better cardiac care.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const obs = new IntersectionObserver(e => { e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible') }) }, { threshold: .15, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.btt-rv').forEach(el => obs.observe(el));
+        window.addEventListener('scroll', () => { const h = document.getElementById('header'); h.classList.toggle('scrolled', window.scrollY > 20) });
+    </script>
+</body>
+
+</html>

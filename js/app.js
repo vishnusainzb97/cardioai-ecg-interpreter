@@ -71,7 +71,15 @@ class CardioAIApp {
             loadingOverlay: document.getElementById('loading-overlay'),
 
             // Samples
-            sampleButtons: document.querySelectorAll('.sample-btn')
+            sampleButtons: document.querySelectorAll('.sample-btn'),
+
+            // Mobile menu
+            mobileMenuBtn: document.getElementById('mobile-menu-btn'),
+            navMobile: document.getElementById('nav-mobile'),
+
+            // Results Modal
+            resultsModal: document.getElementById('results-modal'),
+            resultsModalClose: document.getElementById('results-modal-close')
         };
 
         this.init();
@@ -80,6 +88,10 @@ class CardioAIApp {
     init() {
         this.setupEventListeners();
         this.initializeVisualizer();
+        this.initScrollReveal();
+        this.initStatsCounters();
+        this.initSmoothScroll();
+        this.initHeaderScroll();
     }
 
     initializeVisualizer() {
@@ -87,6 +99,127 @@ class CardioAIApp {
         setTimeout(() => {
             this.visualizer = new ECGVisualizer('ecg-canvas');
         }, 100);
+    }
+
+    /**
+     * Scroll reveal animation using IntersectionObserver
+     */
+    initScrollReveal() {
+        const revealElements = document.querySelectorAll('.reveal');
+        if (!revealElements.length) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Stagger the reveal animation
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(el => observer.observe(el));
+    }
+
+    /**
+     * Animated stat counters in the stats bar section
+     */
+    initStatsCounters() {
+        const statsBarItems = document.querySelectorAll('.stats-bar-value[data-target]');
+        if (!statsBarItems.length) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        statsBarItems.forEach(el => observer.observe(el));
+    }
+
+    /**
+     * Animate a counter element from 0 to its target value
+     */
+    animateCounter(element) {
+        const target = parseInt(element.dataset.target);
+        const suffix = element.dataset.suffix || '';
+        const duration = 2000;
+        const startTime = performance.now();
+
+        const update = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Easing function (decelerate)
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(eased * target);
+
+            element.textContent = current.toLocaleString() + suffix;
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        };
+
+        requestAnimationFrame(update);
+    }
+
+    /**
+     * Smooth scroll for anchor links
+     */
+    initSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const targetId = link.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    e.preventDefault();
+                    const headerOffset = 80;
+                    const elementPosition = targetEl.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    if (this.elements.navMobile) {
+                        this.elements.navMobile.classList.remove('open');
+                        this.elements.mobileMenuBtn.classList.remove('active');
+                    }
+                }
+            });
+        });
+    }
+
+    /**
+     * Header background change on scroll
+     */
+    initHeaderScroll() {
+        const header = document.getElementById('header');
+        if (!header) return;
+
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 50) {
+                header.style.borderBottomColor = 'rgba(148, 163, 184, 0.15)';
+            } else {
+                header.style.borderBottomColor = 'rgba(148, 163, 184, 0.1)';
+            }
+            lastScroll = currentScroll;
+        }, { passive: true });
     }
 
     setupEventListeners() {
@@ -136,6 +269,7 @@ class CardioAIApp {
 
         // New analysis button
         this.elements.newAnalysisBtn.addEventListener('click', () => {
+            this.closeResultsModal();
             this.clearAnalysis();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
@@ -156,6 +290,38 @@ class CardioAIApp {
 
         this.elements.resetZoomBtn.addEventListener('click', () => {
             if (this.visualizer) this.visualizer.reset();
+        });
+
+        // Mobile menu toggle
+        if (this.elements.mobileMenuBtn) {
+            this.elements.mobileMenuBtn.addEventListener('click', () => {
+                this.elements.mobileMenuBtn.classList.toggle('active');
+                this.elements.navMobile.classList.toggle('open');
+            });
+        }
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-link-mobile').forEach(link => {
+            link.addEventListener('click', () => {
+                if (this.elements.navMobile) {
+                    this.elements.navMobile.classList.remove('open');
+                    this.elements.mobileMenuBtn.classList.remove('active');
+                }
+            });
+        });
+
+        // Results modal close button
+        if (this.elements.resultsModalClose) {
+            this.elements.resultsModalClose.addEventListener('click', () => {
+                this.closeResultsModal();
+            });
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.elements.resultsModal?.classList.contains('active')) {
+                this.closeResultsModal();
+            }
         });
     }
 
@@ -239,13 +405,14 @@ class CardioAIApp {
                 this.visualizer.drawWaveform(waveformData, true);
             }
 
-            // Show results section
+            // Show results section (this might be the content for the modal)
             this.elements.resultsSection.classList.add('visible');
 
-            // Scroll to results
-            setTimeout(() => {
-                this.elements.resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 500);
+            // Open fullscreen modal
+            if (this.elements.resultsModal) {
+                this.elements.resultsModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
 
         } catch (error) {
             console.error('Analysis failed:', error);
@@ -294,7 +461,7 @@ class CardioAIApp {
         this.elements.recommendations.innerHTML = results.recommendations
             .map(rec => `
         <li class="recommendation-item">
-          <span class="icon">→</span>
+          <span class="rec-dot"></span>
           <span>${rec}</span>
         </li>
       `)
@@ -348,6 +515,16 @@ class CardioAIApp {
             this.elements.loadingOverlay.classList.add('visible');
         } else {
             this.elements.loadingOverlay.classList.remove('visible');
+        }
+    }
+
+    /**
+     * Close the fullscreen results modal
+     */
+    closeResultsModal() {
+        if (this.elements.resultsModal) {
+            this.elements.resultsModal.classList.remove('active');
+            document.body.style.overflow = '';
         }
     }
 
