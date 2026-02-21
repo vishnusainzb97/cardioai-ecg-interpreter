@@ -4,7 +4,11 @@ import uvicorn
 import numpy as np
 from model_service import ECGInferenceService
 from image_processor import ECGImageProcessor
+from pydantic import BaseModel
 import json
+import os
+from datetime import datetime
+from typing import Optional, List
 
 app = FastAPI(title="CardioAI ECG Interpreter API")
 
@@ -22,9 +26,35 @@ inference_service = ECGInferenceService()
 # Initialize the image processing service
 image_processor = ECGImageProcessor()
 
+# Ensure feedback directory exists
+FEEDBACK_DIR = os.path.join(os.path.dirname(__file__), "data", "feedback")
+os.makedirs(FEEDBACK_DIR, exist_ok=True)
+
+class ClinicianFeedback(BaseModel):
+    predicted_diagnosis: str
+    true_diagnosis: str
+    notes: Optional[str] = ""
+    # We could also accept the signal array here, but to keep the payload lightweight 
+    # for the prototype we focus on the diagnosis correction.
+
 @app.get("/")
 def read_root():
     return {"message": "CardioAI Backend is running."}
+
+@app.post("/api/feedback")
+async def receive_feedback(feedback: ClinicianFeedback):
+    try:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"feedback_{timestamp}.json"
+        filepath = os.path.join(FEEDBACK_DIR, filename)
+        
+        with open(filepath, "w") as f:
+            f.write(feedback.model_dump_json(indent=4))
+            
+        print(f"Saved clinician feedback to {filepath}")
+        return {"status": "success", "message": "Feedback securely saved for RLHF training."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/analyze")
 async def analyze_ecg(file: UploadFile = File(...)):

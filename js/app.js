@@ -73,6 +73,16 @@ class CardioAIApp {
             // Samples
             sampleButtons: document.querySelectorAll('.sample-btn'),
 
+            // RLHF Feedback
+            feedbackCard: document.getElementById('rlhf-feedback-card'),
+            feedbackYesBtn: document.getElementById('feedback-yes-btn'),
+            feedbackNoBtn: document.getElementById('feedback-no-btn'),
+            feedbackCorrectionPanel: document.getElementById('feedback-correction-panel'),
+            trueDiagnosisInput: document.getElementById('true-diagnosis-input'),
+            feedbackNotesInput: document.getElementById('feedback-notes-input'),
+            submitFeedbackBtn: document.getElementById('submit-feedback-btn'),
+            feedbackSuccessMsg: document.getElementById('feedback-success-msg'),
+
             // Mobile menu
             mobileMenuBtn: document.getElementById('mobile-menu-btn'),
             navMobile: document.getElementById('nav-mobile'),
@@ -87,6 +97,7 @@ class CardioAIApp {
 
     init() {
         this.setupEventListeners();
+        this.setupFeedbackListeners();
         this.initializeVisualizer();
         this.initScrollReveal();
         this.initStatsCounters();
@@ -323,6 +334,71 @@ class CardioAIApp {
                 this.closeResultsModal();
             }
         });
+    }
+
+    setupFeedbackListeners() {
+        if (!this.elements.feedbackYesBtn) return;
+
+        this.elements.feedbackYesBtn.addEventListener('click', () => {
+            // Clinician agreed with the model
+            this.submitFeedback(true);
+        });
+
+        this.elements.feedbackNoBtn.addEventListener('click', () => {
+            // Clinician disagreed, show the correction panel
+            this.elements.feedbackCorrectionPanel.style.display = 'flex';
+        });
+
+        this.elements.submitFeedbackBtn.addEventListener('click', () => {
+            // Clinician provided the correct diagnosis
+            this.submitFeedback(false);
+        });
+    }
+
+    async submitFeedback(isCorrect) {
+        if (!this.currentResults) return;
+
+        const predictedDiagnosis = this.currentResults.rhythmType;
+        let trueDiagnosis = predictedDiagnosis;
+        let notes = "";
+
+        if (!isCorrect) {
+            trueDiagnosis = this.elements.trueDiagnosisInput.value.trim();
+            notes = this.elements.feedbackNotesInput.value.trim();
+            if (!trueDiagnosis) {
+                alert("Please provide the true diagnosis before submitting.");
+                return;
+            }
+        }
+
+        const feedbackData = {
+            predicted_diagnosis: predictedDiagnosis,
+            true_diagnosis: trueDiagnosis,
+            notes: notes
+        };
+
+        try {
+            const response = await fetch('http://localhost:8000/api/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(feedbackData)
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to submit feedback.");
+            }
+
+            // Success UI state
+            this.elements.feedbackYesBtn.parentElement.style.display = 'none';
+            this.elements.feedbackCorrectionPanel.style.display = 'none';
+            this.elements.feedbackSuccessMsg.style.display = 'flex';
+
+        } catch (error) {
+            console.error(error);
+            alert("Error saving feedback. Make sure backend is running.");
+        }
     }
 
     /**
@@ -562,6 +638,15 @@ class CardioAIApp {
             el.textContent = '--';
             el.className = el.className.replace(/normal|warning|danger/g, '').trim();
         });
+
+        // Reset Feedback UI
+        if (this.elements.feedbackYesBtn) {
+            this.elements.feedbackYesBtn.parentElement.style.display = 'flex';
+            this.elements.feedbackCorrectionPanel.style.display = 'none';
+            this.elements.feedbackSuccessMsg.style.display = 'none';
+            this.elements.trueDiagnosisInput.value = '';
+            this.elements.feedbackNotesInput.value = '';
+        }
     }
 
     /**

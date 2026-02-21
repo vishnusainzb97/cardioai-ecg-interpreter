@@ -636,6 +636,47 @@
                 </ul>
               </div>
             </div>
+
+            <!-- RLHF Feedback Card -->
+            <div class="analysis-card" id="rlhf-feedback-card">
+              <div class="analysis-card-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <h3>Clinician Verification (RLHF)</h3>
+              </div>
+              <div class="analysis-card-body">
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                  Help improve the model by verifying this diagnosis. Your feedback trains future versions of CardioAI.
+                </p>
+                <div id="feedback-form-container">
+                  <label class="param-label" style="display:block; margin-bottom:0.5rem;">Is this diagnosis
+                    correct?</label>
+                  <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <button class="btn btn-outline btn-sm" id="feedback-yes-btn">Yes, Correct</button>
+                    <button class="btn btn-outline btn-sm" id="feedback-no-btn">No, Incorrect</button>
+                  </div>
+
+                  <div id="feedback-correction-panel" style="display: none; flex-direction: column; gap: 0.75rem;">
+                    <label class="param-label" for="true-diagnosis-input">Provide the True Diagnosis / Findings:</label>
+                    <input type="text" id="true-diagnosis-input"
+                      placeholder="e.g. First degree AV Block, ST depression..."
+                      style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; font-family: inherit; width: 100%; box-sizing: border-box;">
+                    <textarea id="feedback-notes-input" placeholder="Optional notes for the ML engineers..." rows="2"
+                      style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; font-family: inherit; width: 100%; resize: vertical; box-sizing: border-box;"></textarea>
+                    <button class="btn btn-primary btn-sm" id="submit-feedback-btn">Submit Correction to
+                      Database</button>
+                  </div>
+                </div>
+                <div id="feedback-success-msg"
+                  style="display: none; color: #10b981; font-size: 0.875rem; align-items: center; gap: 0.5rem; font-weight: 500;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  Thank you! Feedback securely saved for RLHF.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
